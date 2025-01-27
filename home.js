@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
       savedPrice: 8.2,
       savedPercentage: 80,
     },
+    // More savings data here...
     {
       name: 'John Iskenderian',
       title: 'Head of Business, BRAVA 360 Digital',
@@ -58,6 +59,11 @@ document.addEventListener('DOMContentLoaded', function () {
     },
   ];
 
+  const API_URLS = {
+    rateEstimate: 'https://rc.goshippo.com/ratings/estimate',
+    webhook: 'https://hook.eu2.make.com/jaohruuqta4lye7eo4ieqtr3ljbghmlc',
+  };
+
   function validateStep(step) {
     const currentFields = stepContents[step - 1].querySelectorAll(
       'input[required], select[required]',
@@ -65,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
     for (const field of currentFields) {
       if (!field.value.trim()) {
         toastr.warning(
-          `Please fill in the "${field.previousElementSibling.textContent}" field.`,
+          `Please fill in the "${field.dataset.label || 'required'}" field.`,
         );
         field.focus();
         return false;
@@ -80,14 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
     currentFormFields.forEach((field) => {
       const fieldName = field.name;
       const fieldValue = field.value;
-
-      if (step === 1) {
-        formData.step1[fieldName] = fieldValue;
-      } else if (step === 2) {
-        formData.step2[fieldName] = fieldValue;
-      } else if (step === 3) {
-        formData.step3[fieldName] = fieldValue;
-      }
+      formData[`step${step}`][fieldName] = fieldValue;
     });
 
     if (step === steps.length) {
@@ -97,27 +96,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function updateStepper(step) {
     steps.forEach((s, index) => {
-      if (index + 1 === step) {
-        s.classList.add('active');
-      } else {
-        s.classList.remove('active');
-      }
+      s.classList.toggle('active', index + 1 === step);
     });
-
     stepContents.forEach((content, index) => {
-      if (index + 1 === step) {
-        content.classList.add('active');
-      } else {
-        content.classList.remove('active');
-      }
+      content.classList.toggle('active', index + 1 === step);
     });
   }
 
   document.querySelectorAll('.next-step').forEach((button) => {
     button.addEventListener('click', () => {
-      if (!validateStep(currentStep)) {
-        return;
-      }
+      if (!validateStep(currentStep)) return;
       if (currentStep < steps.length) {
         captureStepData(currentStep);
         currentStep++;
@@ -139,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     captureStepData(currentStep);
 
-    fetch('https://hook.eu2.make.com/jaohruuqta4lye7eo4ieqtr3ljbghmlc', {
+    fetch(API_URLS.webhook, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -147,18 +135,13 @@ document.addEventListener('DOMContentLoaded', function () {
       body: JSON.stringify(formData),
     })
       .then((response) => {
-        if (response.ok) {
-          return response.arrayBuffer();
-        } else {
-          throw new Error('Failed to send data');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
+        return response.json();
       })
-      .then((arrayBuffer) => {
-        const decoder = new TextDecoder('utf-8');
-        const decodedString = decoder.decode(arrayBuffer);
-        const data = JSON.parse(decodedString);
+      .then((data) => {
         console.log('Response Data:', data);
-        // displayResultsInternational(data);
       })
       .catch((error) => {
         console.error('Error sending data to the webhook:', error);
@@ -206,36 +189,36 @@ document.addEventListener('DOMContentLoaded', function () {
     const savingsItem = document.createElement('div');
     savingsItem.className = 'savings-item';
     savingsItem.innerHTML = `
-                    <div class="avatar">
-                        <img src="${item.image}" alt="${item.name}">
-                    </div>
-                    <div class="savings-content">
-                        <div class="savings-header">
-                            <div class="user-info">
-                                <h3>${item.name}</h3>
-                                <p>${item.title}</p>
-                            </div>
-                            <div class="savings-amount">
-                                <div class="savings-percentage">${
-                                  item.savedPercentage
-                                }% Saved</div>
-                                <div>
-                                    <span class="original-price">$${item.originalPrice.toFixed(
-                                      2,
-                                    )}</span>
-                                    <span class="new-price">$${item.savedPrice.toFixed(
-                                      2,
-                                    )}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="location">
-                            <span>${item.fromLocation}</span>
-                            <span>→</span>
-                            <span>${item.toLocation}</span>
-                        </div>
-                    </div>
-                `;
+      <div class="avatar">
+          <img src="${item.image}" alt="${item.name}">
+      </div>
+      <div class="savings-content">
+          <div class="savings-header">
+              <div class="user-info">
+                  <h3>${item.name}</h3>
+                  <p>${item.title}</p>
+              </div>
+              <div class="savings-amount">
+                  <div class="savings-percentage">${
+                    item.savedPercentage
+                  }% Saved</div>
+                  <div>
+                      <span class="original-price">$${item.originalPrice.toFixed(
+                        2,
+                      )}</span>
+                      <span class="new-price">$${item.savedPrice.toFixed(
+                        2,
+                      )}</span>
+                  </div>
+              </div>
+          </div>
+          <div class="location">
+              <span>${item.fromLocation}</span>
+              <span>→</span>
+              <span>${item.toLocation}</span>
+          </div>
+      </div>
+    `;
     savingsList.appendChild(savingsItem);
   });
 
@@ -245,8 +228,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const payload = {
       zipcode_from: document.getElementById('fromZip').value,
       zipcode_to: document.getElementById('toZip').value,
-      // package_type: document.querySelector('.package-type.selected')
-      //   .dataset.type,
+      // package_type: document.querySelector('.package-type.selected')?.dataset
+      //   .type,
       package_type: '',
       package_length: document.getElementById('length').value,
       package_width: document.getElementById('width').value,
@@ -255,10 +238,9 @@ document.addEventListener('DOMContentLoaded', function () {
       weight: document.getElementById('weight').value,
       weight_unit: document.getElementById('weightUnit').value,
     };
-    console.log({ payload });
 
     try {
-      const response = await fetch('https://rc.goshippo.com/ratings/estimate', {
+      const response = await fetch(API_URLS.rateEstimate, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -266,80 +248,74 @@ document.addEventListener('DOMContentLoaded', function () {
         body: JSON.stringify(payload),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
       const data = await response.json();
       displayResults(data);
     } catch (error) {
+      toastr.error(`Error fetching rates: ${error.message}`);
       console.error('Error:', error);
     }
   });
 
   function displayResults(data) {
-    console.log({ data });
-    resultSection.innerHTML = `      
-          <div class="local-result-header">
+    resultSection.innerHTML = `
+      <div class="local-result-header">
         <h1 class="card-title" style="margin-bottom: 0 !important">Best Deals</h1>
         <span role="img" aria-label="fire">🔥</span>
       </div>
-      `;
-
-    if (data && data.rates && data.rates.length > 0) {
-      const fastestRate = data.rates.find((rate) =>
-        rate.attributes.includes('FASTEST'),
-      );
-      const cheapestRate = data.rates.find((rate) =>
-        rate.attributes.includes('CHEAPEST'),
-      );
-      const bestValueRate = data.rates.find((rate) =>
-        rate.attributes.includes('BESTVALUE'),
-      );
-      const createCard = (rate, category) => `
-      <div class="category">${category}</div>
-      <div class="shipping-option">
-        <img src="${rate.provider_logo}" alt="${rate.provider}" class="logo" />
-        <div class="details">
-          <div class="company">${rate.provider} ${rate.service_level_name}</div>
-          <div class="time">
-            ${
-              rate.delivery_days_min === rate.delivery_days_max
-                ? `${rate.delivery_days_min} days`
-                : `${rate.delivery_days_min}-${rate.delivery_days_max} days`
-            }
-          </div>
-        </div>
-        <div class="price-section">
-          <div class="price">
-            <div class="original-price">$${rate.retail_amount || 'N/A'}</div>
-            <div class="current-price">$${rate.amount}</div>
-          </div>
-          <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
-            rate,
-          )})'>Buy</button>
-        </div>
-      </div>
     `;
 
-      // Add filtered rates to the UI
-      if (fastestRate) {
-        resultSection.innerHTML += createCard(fastestRate, 'Fastest');
-      }
-      if (cheapestRate) {
-        resultSection.innerHTML += createCard(cheapestRate, 'Cheapest');
-      }
-      if (bestValueRate) {
-        resultSection.innerHTML += createCard(bestValueRate, 'Best Value');
-      }
+    if (data && data.rates?.length) {
+      const createCard = (rate, category) => `
+        <div class="category">${category}</div>
+        <div class="shipping-option">
+          <img src="${rate.provider_logo}" alt="${
+        rate.provider
+      }" class="logo" />
+          <div class="details">
+            <div class="company">${rate.provider} ${
+        rate.service_level_name
+      }</div>
+            <div class="time">
+              ${
+                rate.delivery_days_min === rate.delivery_days_max
+                  ? `${rate.delivery_days_min} days`
+                  : `${rate.delivery_days_min}-${rate.delivery_days_max} days`
+              }
+            </div>
+          </div>
+          <div class="price-section">
+            <div class="price">
+              <div class="original-price">$${rate.retail_amount || 'N/A'}</div>
+              <div class="current-price">$${rate.amount}</div>
+            </div>
+            <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
+              rate,
+            )})'>Buy</button>
+          </div>
+        </div>
+      `;
 
-      // Handle remaining rates (not part of specific categories)
-      const remainingRates = data.rates.filter(
+      ['FASTEST', 'CHEAPEST', 'BESTVALUE'].forEach((category) => {
+        const rate = data.rates.find((r) => r.attributes.includes(category));
+        if (rate) {
+          resultSection.innerHTML += createCard(rate, category);
+        }
+      });
+
+      const otherRates = data.rates.filter(
         (rate) =>
-          !rate.attributes.includes('FASTEST') &&
-          !rate.attributes.includes('CHEAPEST') &&
-          !rate.attributes.includes('BESTVALUE'),
+          !['FASTEST', 'CHEAPEST', 'BESTVALUE'].some((attr) =>
+            rate.attributes.includes(attr),
+          ),
       );
 
-      if (remainingRates.length > 0) {
+      if (otherRates.length) {
         resultSection.innerHTML += '<div class="category">Other Options</div>';
-        remainingRates.forEach((rate) => {
+        otherRates.forEach((rate) => {
           resultSection.innerHTML += createCard(rate, '');
         });
       }
@@ -352,26 +328,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   window.navigateToOrder = function (rate) {
-    const fromZip = document.getElementById('fromZip').value;
-    const toZip = document.getElementById('toZip').value;
-    const length = document.getElementById('length').value;
-    const width = document.getElementById('width').value;
-    const height = document.getElementById('height').value;
-    const dimensionUnit = document.getElementById('dimensionUnit').value;
-    const weight = document.getElementById('weight').value;
-    const weightUnit = document.getElementById('weightUnit').value;
-
-    const serializedRate = encodeURIComponent(JSON.stringify(rate));
     const queryParams = new URLSearchParams({
-      fromZip,
-      toZip,
-      length,
-      width,
-      height,
-      dimensionUnit,
-      weight,
-      weightUnit,
-      rate: serializedRate,
+      ...formData.step1,
+      ...formData.step2,
+      ...formData.step3,
+      rate: JSON.stringify(rate),
     });
 
     window.location.href = `order?${queryParams.toString()}`;
