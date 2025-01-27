@@ -328,11 +328,30 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   window.navigateToOrder = function (rate) {
+    const fromZip = document.getElementById('fromZip').value;
+    const toZip = document.getElementById('toZip').value;
+    const length = document.getElementById('length').value;
+    const width = document.getElementById('width').value;
+    const height = document.getElementById('height').value;
+    const dimensionUnit = document.getElementById('dimensionUnit').value;
+    const weight = document.getElementById('weight').value;
+    const weightUnit = document.getElementById('weightUnit').value;
+    const serializedRate = encodeURIComponent(JSON.stringify(rate));
+
     const queryParams = new URLSearchParams({
-      ...formData.step1,
-      ...formData.step2,
-      ...formData.step3,
+      // ...formData.step1,
+      // ...formData.step2,
+      // ...formData.step3,
+      fromZip,
+      toZip,
+      length,
+      width,
+      height,
+      dimensionUnit,
+      weight,
+      weightUnit,
       rate: JSON.stringify(rate),
+      rate: serializedRate,
     });
 
     window.location.href = `order?${queryParams.toString()}`;
