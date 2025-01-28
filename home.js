@@ -165,22 +165,22 @@ document.addEventListener('DOMContentLoaded', function () {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log('Response Data:', data);
-      // Get the response as an ArrayBuffer
-      // const arrayBuffer = await response.arrayBuffer();
-
-      // // Decode the ArrayBuffer to a string
-      // const decoder = new TextDecoder('utf-8');
-      // const decodedString = decoder.decode(arrayBuffer);
-
-      // // Parse the JSON string
-      // const data = JSON.parse(decodedString);
-
+      // const data = await response.json();
       // console.log('Response Data:', data);
+      // Get the response as an ArrayBuffer
+      const arrayBuffer = await response.arrayBuffer();
 
-      // // Handle the response data here
-      // displayResultsInternational(data);
+      // Decode the ArrayBuffer to a string
+      const decoder = new TextDecoder('utf-8');
+      const decodedString = decoder.decode(arrayBuffer);
+
+      // Parse the JSON string
+      const data = JSON.parse(decodedString);
+
+      console.log('Response Data:', data);
+
+      // Handle the response data here
+      displayResultsInternational(data);
     } catch (error) {
       console.error('Error sending data to the webhook:', error);
     }
