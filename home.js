@@ -61,7 +61,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const API_URLS = {
     rateEstimate: 'https://rc.goshippo.com/ratings/estimate',
-    webhook: 'https://hook.eu2.make.com/jaohruuqta4lye7eo4ieqtr3ljbghmlc',
+    // webhook: 'https://hook.eu2.make.com/jaohruuqta4lye7eo4ieqtr3ljbghmlc',
+    webhook: 'https://hook.us2.make.com/iabjf8x5okv7te05wyeywr47oi4nk4cm',
   };
 
   function validateStep(step) {
@@ -123,30 +124,141 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  internationalForm.addEventListener('submit', (e) => {
+  // internationalForm.addEventListener('submit', (e) => {
+  //   e.preventDefault();
+  //   captureStepData(currentStep);
+
+  //   fetch(API_URLS.webhook, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(formData),
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! Status: ${response.status}`);
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       console.log('Response Data:', data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error sending data to the webhook:', error);
+  //     });
+  // });
+  internationalForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     captureStepData(currentStep);
 
-    fetch(API_URLS.webhook, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log('Response Data:', data);
-      })
-      .catch((error) => {
-        console.error('Error sending data to the webhook:', error);
+    try {
+      const response = await fetch(API_URLS.webhook, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Response Data:', data);
+      // Get the response as an ArrayBuffer
+      // const arrayBuffer = await response.arrayBuffer();
+
+      // // Decode the ArrayBuffer to a string
+      // const decoder = new TextDecoder('utf-8');
+      // const decodedString = decoder.decode(arrayBuffer);
+
+      // // Parse the JSON string
+      // const data = JSON.parse(decodedString);
+
+      // console.log('Response Data:', data);
+
+      // // Handle the response data here
+      // displayResultsInternational(data);
+    } catch (error) {
+      console.error('Error sending data to the webhook:', error);
+    }
   });
+
+  function displayResultsInternational(data) {
+    console.log({ internationalData: data });
+    resultSection.innerHTML =
+      '<h2 class="card-title">International Shipping Rates</h2>';
+
+    // Check if data exists and has the "data" key with rates
+    if (data && data && data.length > 0) {
+      data.forEach((rate) => {
+        const card = document.createElement('div');
+        card.className = 'result-card';
+        card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+          <!-- Provider Logo and Name -->
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <img 
+              src="${rate.provider_image_75}" 
+              alt="${rate.provider}" 
+              style="
+                height: 56px;
+                width: 56px;
+                object-fit: contain;
+                border-radius: 8px;
+              "
+            />
+            <div>
+              <p style="font-weight: 600; margin: 0;">${rate.provider}</p>
+              <p style="font-size: 0.875rem; color: #666; margin: 0;">${
+                rate.servicelevel.name
+              }</p>
+            </div>
+          </div>
+
+          <!-- Delivery Details -->
+          <div style="text-align: right;">
+            <p style="font-size: 0.875rem; color: #666; margin: 0;">
+              ${rate.estimated_days} ${
+          rate.estimated_days === 1 ? 'day' : 'days'
+        }
+            </p>
+            <p style="font-size: 0.875rem; color: #666; margin: 0;">
+              ${
+                rate.arrives_by
+                  ? `Arrives by ${rate.arrives_by}`
+                  : 'No specific arrival time'
+              }
+            </p>
+          </div>
+
+          <!-- Price -->
+          <div style="text-align: right;">
+            <p style="font-weight: 600; margin: 0;">$${rate.amount}</p>
+            <p style="font-size: 0.875rem; color: #666; margin: 0;">${
+              rate.currency
+            }</p>
+          </div>
+
+          <!-- Buy Button -->
+          <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
+            rate,
+          )})'>
+            Buy
+          </button>
+        </div>
+      `;
+        resultSection.appendChild(card);
+      });
+    } else {
+      resultSection.innerHTML += '<p>No rates available.</p>';
+    }
+
+    savingsSection.classList.add('hidden');
+    resultSection.classList.remove('hidden');
+  }
 
   updateStepper(currentStep);
 
