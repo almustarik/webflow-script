@@ -186,72 +186,134 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // function displayResultsInternational(data) {
+  //   console.log({ internationalData: data });
+  //   resultSection.innerHTML =
+  //     '<h2 class="card-title">International Shipping Rates</h2>';
+
+  //   // Check if data exists and has the "data" key with rates
+  //   if (data && data && data.length > 0) {
+  //     data.forEach((rate) => {
+  //       const card = document.createElement('div');
+  //       card.className = 'result-card';
+  //       card.innerHTML = `
+  //       <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+  //         <!-- Provider Logo and Name -->
+  //         <div style="display: flex; align-items: center; gap: 12px;">
+  //           <img
+  //             src="${rate.provider_image_75}"
+  //             alt="${rate.provider}"
+  //             style="
+  //               height: 56px;
+  //               width: 56px;
+  //               object-fit: contain;
+  //               border-radius: 8px;
+  //             "
+  //           />
+  //           <div>
+  //             <p style="font-weight: 600; margin: 0;">${rate.provider}</p>
+  //             <p style="font-size: 0.875rem; color: #666; margin: 0;">${
+  //               rate.servicelevel.name
+  //             }</p>
+  //           </div>
+  //         </div>
+
+  //         <!-- Delivery Details -->
+  //         <div style="text-align: right;">
+  //           <p style="font-size: 0.875rem; color: #666; margin: 0;">
+  //             ${rate.estimated_days} ${
+  //         rate.estimated_days === 1 ? 'day' : 'days'
+  //       }
+  //           </p>
+  //           <p style="font-size: 0.875rem; color: #666; margin: 0;">
+  //             ${
+  //               rate.arrives_by
+  //                 ? `Arrives by ${rate.arrives_by}`
+  //                 : 'No specific arrival time'
+  //             }
+  //           </p>
+  //         </div>
+
+  //         <!-- Price -->
+  //         <div style="text-align: right;">
+  //           <p style="font-weight: 600; margin: 0;">$${rate.amount}</p>
+  //           <p style="font-size: 0.875rem; color: #666; margin: 0;">${
+  //             rate.currency
+  //           }</p>
+  //         </div>
+
+  //         <!-- Buy Button -->
+  //         <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
+  //           rate,
+  //         )})'>
+  //           Buy
+  //         </button>
+  //       </div>
+  //     `;
+  //       resultSection.appendChild(card);
+  //     });
+  //   } else {
+  //     resultSection.innerHTML += '<p>No rates available.</p>';
+  //   }
+
+  //   savingsSection.classList.add('hidden');
+  //   resultSection.classList.remove('hidden');
+  // }
+
   function displayResultsInternational(data) {
     console.log({ internationalData: data });
-    resultSection.innerHTML =
-      '<h2 class="card-title">International Shipping Rates</h2>';
+    resultSection.innerHTML = `
+    <div class="local-result-header">
+      <h1 class="card-title" style="margin-bottom: 0 !important">Best Deals</h1>
+      <span role="img" aria-label="fire">🔥</span>
+    </div>
+  `;
 
-    // Check if data exists and has the "data" key with rates
-    if (data && data && data.length > 0) {
-      data.forEach((rate) => {
-        const card = document.createElement('div');
-        card.className = 'result-card';
-        card.innerHTML = `
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px;">
-          <!-- Provider Logo and Name -->
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <img 
-              src="${rate.provider_image_75}" 
-              alt="${rate.provider}" 
-              style="
-                height: 56px;
-                width: 56px;
-                object-fit: contain;
-                border-radius: 8px;
-              "
-            />
-            <div>
-              <p style="font-weight: 600; margin: 0;">${rate.provider}</p>
-              <p style="font-size: 0.875rem; color: #666; margin: 0;">${
-                rate.servicelevel.name
-              }</p>
-            </div>
+    if (data && data.length > 0) {
+      const createCard = (rate, category) => `
+      <div class="category">${category}</div>
+      <div class="shipping-option">
+        <img src="${rate.provider_image_75}" alt="${
+        rate.provider
+      }" class="logo" />
+        <div class="details">
+          <div class="company">${rate.provider} ${rate.servicelevel.name}</div>
+          <div class="time">
+            ${rate.estimated_days} ${rate.estimated_days === 1 ? 'day' : 'days'}
           </div>
-
-          <!-- Delivery Details -->
-          <div style="text-align: right;">
-            <p style="font-size: 0.875rem; color: #666; margin: 0;">
-              ${rate.estimated_days} ${
-          rate.estimated_days === 1 ? 'day' : 'days'
-        }
-            </p>
-            <p style="font-size: 0.875rem; color: #666; margin: 0;">
-              ${
-                rate.arrives_by
-                  ? `Arrives by ${rate.arrives_by}`
-                  : 'No specific arrival time'
-              }
-            </p>
+        </div>
+        <div class="price-section">
+          <div class="price">
+            <div class="original-price">$${rate.amount}</div>
+            <div class="current-price">$${rate.amount}</div>
           </div>
-
-          <!-- Price -->
-          <div style="text-align: right;">
-            <p style="font-weight: 600; margin: 0;">$${rate.amount}</p>
-            <p style="font-size: 0.875rem; color: #666; margin: 0;">${
-              rate.currency
-            }</p>
-          </div>
-
-          <!-- Buy Button -->
           <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
             rate,
-          )})'>
-            Buy
-          </button>
+          )}, "international")'>Buy</button>
         </div>
-      `;
-        resultSection.appendChild(card);
+      </div>
+    `;
+
+      ['FASTEST', 'CHEAPEST', 'BESTVALUE'].forEach((category) => {
+        const rate = data.find((r) => r.attributes.includes(category));
+        if (rate) {
+          resultSection.innerHTML += createCard(rate, category);
+        }
       });
+
+      const otherRates = data.filter(
+        (rate) =>
+          !['FASTEST', 'CHEAPEST', 'BESTVALUE'].some((attr) =>
+            rate.attributes.includes(attr),
+          ),
+      );
+
+      if (otherRates.length) {
+        resultSection.innerHTML += '<div class="category">Other Options</div>';
+        otherRates.forEach((rate) => {
+          resultSection.innerHTML += createCard(rate, '');
+        });
+      }
     } else {
       resultSection.innerHTML += '<p>No rates available.</p>';
     }
@@ -406,7 +468,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
             <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
               rate,
-            )})'>Buy</button>
+            )}, "local")'>Buy</button>
           </div>
         </div>
       `;
@@ -439,33 +501,77 @@ document.addEventListener('DOMContentLoaded', function () {
     resultSection.classList.remove('hidden');
   }
 
-  window.navigateToOrder = function (rate) {
-    const fromZip = document.getElementById('fromZip').value;
-    const toZip = document.getElementById('toZip').value;
-    const length = document.getElementById('length').value;
-    const width = document.getElementById('width').value;
-    const height = document.getElementById('height').value;
-    const dimensionUnit = document.getElementById('dimensionUnit').value;
-    const weight = document.getElementById('weight').value;
-    const weightUnit = document.getElementById('weightUnit').value;
+  // window.navigateToOrder = function (rate) {
+  //   const fromZip = document.getElementById('fromZip').value;
+  //   const toZip = document.getElementById('toZip').value;
+  //   const length = document.getElementById('length').value;
+  //   const width = document.getElementById('width').value;
+  //   const height = document.getElementById('height').value;
+  //   const dimensionUnit = document.getElementById('dimensionUnit').value;
+  //   const weight = document.getElementById('weight').value;
+  //   const weightUnit = document.getElementById('weightUnit').value;
+  //   const serializedRate = encodeURIComponent(JSON.stringify(rate));
+
+  //   const queryParams = new URLSearchParams({
+  //     // ...formData.step1,
+  //     // ...formData.step2,
+  //     // ...formData.step3,
+  //     fromZip,
+  //     toZip,
+  //     length,
+  //     width,
+  //     height,
+  //     dimensionUnit,
+  //     weight,
+  //     weightUnit,
+  //     // rate: JSON.stringify(rate),
+  //     rate: serializedRate,
+  //   });
+
+  //   window.location.href = `/original/order.html?${queryParams.toString()}`;
+  // };
+
+  window.navigateToOrder = function (rate, type) {
+    const queryParams = new URLSearchParams();
     const serializedRate = encodeURIComponent(JSON.stringify(rate));
 
-    const queryParams = new URLSearchParams({
-      // ...formData.step1,
-      // ...formData.step2,
-      // ...formData.step3,
-      fromZip,
-      toZip,
-      length,
-      width,
-      height,
-      dimensionUnit,
-      weight,
-      weightUnit,
-      rate: JSON.stringify(rate),
-      rate: serializedRate,
-    });
+    // Add rate for both local and international
+    queryParams.append('rate', serializedRate);
 
-    window.location.href = `order?${queryParams.toString()}`;
+    if (type === 'international') {
+      // For international, add formData only
+      queryParams.append('step1', JSON.stringify(formData.step1));
+      queryParams.append('step2', JSON.stringify(formData.step2));
+      queryParams.append('step3', JSON.stringify(formData.step3));
+    } else {
+      // For local, add only the shipping details
+      const fromZip = document.getElementById('fromZip').value;
+      const toZip = document.getElementById('toZip').value;
+      const length = document.getElementById('length').value;
+      const width = document.getElementById('width').value;
+      const height = document.getElementById('height').value;
+      const dimensionUnit = document.getElementById('dimensionUnit').value;
+      const weight = document.getElementById('weight').value;
+      const weightUnit = document.getElementById('weightUnit').value;
+
+      queryParams.append('fromZip', fromZip);
+      queryParams.append('toZip', toZip);
+      queryParams.append('length', length);
+      queryParams.append('width', width);
+      queryParams.append('height', height);
+      queryParams.append('dimensionUnit', dimensionUnit);
+      queryParams.append('weight', weight);
+      queryParams.append('weightUnit', weightUnit);
+    }
+
+    // Determine the correct URL based on type
+    // const url =
+    //   type === 'international'
+    //     ? '/original/international-order.html'
+    //     : '/original/order.html';
+    const url = type === 'international' ? 'international-order' : 'order';
+
+    // Redirect to the appropriate URL
+    window.location.href = `${url}?${queryParams.toString()}`;
   };
 });
