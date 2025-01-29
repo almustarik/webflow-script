@@ -458,9 +458,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     readableData.rate?.estimatedDays || 'N/A'
   }</p>
   <p><strong>Provider:</strong> ${readableData.rate?.provider || 'N/A'}</p>
-  <p><img src="${readableData.rate?.providerImage_75 || ''}" alt="${
+  <img src="${readableData.rate?.providerImage_75 || ''}" alt="${
       readableData.rate?.provider || ''
-    }" style="height: 40px; width: 40px;"></p>
+    }">
   <p><strong>Duration Terms:</strong> ${
     readableData.rate?.durationTerms || 'N/A'
   }</p>
