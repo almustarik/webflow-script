@@ -201,11 +201,52 @@ document.addEventListener('DOMContentLoaded', async function () {
       statusContainer.textContent = 'Payment Successful!';
       //window.location.href = `/order-confirmation`;
       statusContainer.classList.add('success');
+
+      // Send data to webhook
+      sendDataToWebhook();
     } else {
       statusContainer.textContent = 'Payment Failed!';
       statusContainer.classList.add('failure');
     }
     statusContainer.style.visibility = 'visible';
+  }
+
+  async function sendDataToWebhook() {
+    const allData = {
+      // senderAddress: readableData.senderAddress,
+      // receiverAddress: readableData.receiverAddress,
+      // shipmentDetails: readableData.productDescription,
+      // dimensions: readableData.dimensions,
+      // weight: readableData.weight,
+      // rateDetails: readableData.rate,
+      // paymentAmount: readableData.rate?.amount || 'N/A',
+      // paymentCurrency: readableData.rate?.currency || 'N/A',
+      readableData,
+      formData,
+    };
+
+    console.log({ allData });
+
+    // try {
+    //   const response = await fetch(
+    //     'https://hook.us2.make.com/bil7j8nn1xl1esjshvvi12as4uinhir3',
+    //     {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify(allData),
+    //     },
+    //   );
+
+    //   if (response.ok) {
+    //     console.log('Data successfully sent to webhook', response);
+    //   } else {
+    //     console.error('Failed to send data to webhook:', response.statusText);
+    //   }
+    // } catch (error) {
+    //   console.error('Error sending data to webhook:', error);
+    // }
   }
 
   cardButton.addEventListener('click', async function (event) {
@@ -287,24 +328,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       step === 1 ? formData.step1 : formData.step2,
     );
   }
-
-  //     // Display final step data
-  //     function displayFinalData() {
-  //       const finalDataContainer = document.querySelector('#final-step-data');
-  //       finalDataContainer.innerHTML = `
-  //   <h3>Sender Information</h3>
-  //   <p><strong>Street:</strong> ${formData.step1.street || ''}</p>
-  //   <p><strong>State:</strong> ${formData.step1.state || ''}</p>
-  //   <p><strong>City:</strong> ${formData.step1.city || ''}</p>
-  //   <p><strong>Postal Code:</strong> ${formData.step1.postalCode || ''}</p>
-
-  //   <h3>Receiver Information</h3>
-  //   <p><strong>Street:</strong> ${formData.step2.street || ''}</p>
-  //   <p><strong>State:</strong> ${formData.step2.state || ''}</p>
-  //   <p><strong>City:</strong> ${formData.step2.city || ''}</p>
-  //   <p><strong>Postal Code:</strong> ${formData.step2.postalCode || ''}</p>
-  // `;
-  //     }
 
   // Display final step data
   function displayFinalData() {
