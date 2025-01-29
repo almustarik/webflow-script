@@ -361,68 +361,135 @@ document.addEventListener('DOMContentLoaded', async function () {
     // }</p>
     // <p><strong>Dimensions:</strong> ${readableData.dimensions || 'N/A'}</p>
     // <p><strong>Weight:</strong> ${readableData.weight || 'N/A'}</p>
-    const readableDataHTML = `
+    //   const readableDataHTML = `
 
+    //    <h3>Shipment Details:</h3>
+    // <p><strong>Product Description:</strong> ${
+    //   readableData.productDescription?.productDescription || 'N/A'
+    // }</p>
+    // <p><strong>Product Quantity:</strong> ${
+    //   readableData.productDescription?.productQuantity || 'N/A'
+    // }</p>
+    // <p><strong>Product Value:</strong> ${
+    //   readableData.productDescription?.productValue || 'N/A'
+    // }</p>
+    // <p><strong>Country of Origin:</strong> ${
+    //   readableData.productDescription?.countryOfOrigin || 'N/A'
+    // }</p>
+    // <p><strong>Purpose of Shipment:</strong> ${
+    //   readableData.productDescription?.purposeOfShipments || 'N/A'
+    // }</p>
+    // <p><strong>Dimensions:</strong> ${readableData.dimensions || 'N/A'}</p>
+    // <p><strong>Weight:</strong> ${readableData.weight || 'N/A'}</p>
 
+    //   <h3>Rate Details:</h3>
+    //   <p><strong>Amount:</strong> ${readableData.rate?.amount || 'N/A'} ${
+    //     readableData.rate?.currency || 'N/A'
+    //   }</p>
+    //   <p><strong>Retail Amount:</strong> ${
+    //     readableData.rate?.retailAmount || 'N/A'
+    //   } ${readableData.rate?.currency || 'N/A'}</p>
+    //   <p><strong>Attributes:</strong> ${
+    //     readableData.rate?.attributes?.join(', ') || 'N/A'
+    //   }</p>
+    //   <p><strong>Service Level:</strong> ${
+    //     readableData.rate?.servicelevel?.name || 'N/A'
+    //   }</p>
+    //   <p><strong>Delivery Days:</strong> ${
+    //     readableData.rate?.estimatedDays || 'N/A'
+    //   }</p>
+    //   <p><strong>Provider:</strong> ${readableData.rate?.provider || 'N/A'}</p>
+    //   <p><img src="${readableData.rate?.providerImage_75 || ''}" alt="${
+    //     readableData.rate?.provider || ''
+    //   }" style="height: 40px;"></p>
+    //   <p><strong>Duration Terms:</strong> ${
+    //     readableData.rate?.durationTerms || 'N/A'
+    //   }</p>
+    //   <p><strong>Carrier Account:</strong> ${
+    //     readableData.rate?.carrierAccount || 'N/A'
+    //   }</p>
+    //   <p><strong>Zone:</strong> ${readableData.rate?.zone || 'N/A'}</p>
+    //   <p><strong>Insurance Included:</strong> ${
+    //     readableData.rate?.includedInsurancePrice || 'N/A'
+    //   }</p>
+    //   <p><strong>Created On:</strong> ${
+    //     readableData.rate?.objectCreated || 'N/A'
+    //   }</p>
+    //   <p><strong>Owner:</strong> ${readableData.rate?.objectOwner || 'N/A'}</p>
+    //   <p><strong>Test Mode:</strong> ${readableData.rate?.test ? 'Yes' : 'No'}</p>
+    // `;
 
-     <h3>Shipment Details:</h3>
+    const shipmentDetailsHTML = `
+  <h3>Shipment Details:</h3>
   <p><strong>Product Description:</strong> ${
-    readableData.productDescription?.productDescription || 'N/A'
+    queryParamsReadableData.productDescription?.productDescription || 'N/A'
   }</p>
   <p><strong>Product Quantity:</strong> ${
-    readableData.productDescription?.productQuantity || 'N/A'
+    queryParamsReadableData.productDescription?.productQuantity || 'N/A'
   }</p>
   <p><strong>Product Value:</strong> ${
-    readableData.productDescription?.productValue || 'N/A'
+    queryParamsReadableData.productDescription?.productValue || 'N/A'
   }</p>
   <p><strong>Country of Origin:</strong> ${
-    readableData.productDescription?.countryOfOrigin || 'N/A'
+    queryParamsReadableData.productDescription?.countryOfOrigin || 'N/A'
   }</p>
   <p><strong>Purpose of Shipment:</strong> ${
-    readableData.productDescription?.purposeOfShipments || 'N/A'
+    queryParamsReadableData.productDescription?.purposeOfShipments || 'N/A'
   }</p>
-  <p><strong>Dimensions:</strong> ${readableData.dimensions || 'N/A'}</p>
-  <p><strong>Weight:</strong> ${readableData.weight || 'N/A'}</p>
-    
-    <h3>Rate Details:</h3>
-    <p><strong>Amount:</strong> ${readableData.rate?.amount || 'N/A'} ${
-      readableData.rate?.currency || 'N/A'
-    }</p>
-    <p><strong>Retail Amount:</strong> ${
-      readableData.rate?.retailAmount || 'N/A'
-    } ${readableData.rate?.currency || 'N/A'}</p>
-    <p><strong>Attributes:</strong> ${
-      readableData.rate?.attributes?.join(', ') || 'N/A'
-    }</p>
-    <p><strong>Service Level:</strong> ${
-      readableData.rate?.servicelevel?.name || 'N/A'
-    }</p>
-    <p><strong>Delivery Days:</strong> ${
-      readableData.rate?.estimatedDays || 'N/A'
-    }</p>
-    <p><strong>Provider:</strong> ${readableData.rate?.provider || 'N/A'}</p>
-    <p><img src="${readableData.rate?.providerImage_75 || ''}" alt="${
-      readableData.rate?.provider || ''
-    }" style="height: 40px;"></p>
-    <p><strong>Duration Terms:</strong> ${
-      readableData.rate?.durationTerms || 'N/A'
-    }</p>
-    <p><strong>Carrier Account:</strong> ${
-      readableData.rate?.carrierAccount || 'N/A'
-    }</p>
-    <p><strong>Zone:</strong> ${readableData.rate?.zone || 'N/A'}</p>
-    <p><strong>Insurance Included:</strong> ${
-      readableData.rate?.includedInsurancePrice || 'N/A'
-    }</p>
-    <p><strong>Created On:</strong> ${
-      readableData.rate?.objectCreated || 'N/A'
-    }</p>
-    <p><strong>Owner:</strong> ${readableData.rate?.objectOwner || 'N/A'}</p>
-    <p><strong>Test Mode:</strong> ${readableData.rate?.test ? 'Yes' : 'No'}</p>
-  `;
+  <p><strong>Dimensions:</strong> ${
+    queryParamsReadableData.dimensions || 'N/A'
+  }</p>
+  <p><strong>Weight:</strong> ${queryParamsReadableData.weight || 'N/A'}</p>
+`;
+
+    const rateDetailsHTML = `
+  <h3>Rate Details:</h3>
+  <p><strong>Amount:</strong> ${
+    queryParamsReadableData.rate?.amount || 'N/A'
+  } ${queryParamsReadableData.rate?.currency || 'N/A'}</p>
+  <p><strong>Retail Amount:</strong> ${
+    queryParamsReadableData.rate?.amountLocal || 'N/A'
+  } ${queryParamsReadableData.rate?.currencyLocal || 'N/A'}</p>
+  <p><strong>Attributes:</strong> ${
+    queryParamsReadableData.rate?.attributes?.join(', ') || 'N/A'
+  }</p>
+  <p><strong>Service Level:</strong> ${
+    queryParamsReadableData.rate?.servicelevel?.name || 'N/A'
+  }</p>
+  <p><strong>Delivery Days:</strong> ${
+    queryParamsReadableData.rate?.estimatedDays || 'N/A'
+  }</p>
+  <p><strong>Provider:</strong> ${
+    queryParamsReadableData.rate?.provider || 'N/A'
+  }</p>
+  <p><img src="${queryParamsReadableData.rate?.providerImage_75 || ''}" alt="${
+      queryParamsReadableData.rate?.provider || ''
+    }" style="height: 40px; width: 40px;"></p>
+  <p><strong>Duration Terms:</strong> ${
+    queryParamsReadableData.rate?.durationTerms || 'N/A'
+  }</p>
+  <p><strong>Carrier Account:</strong> ${
+    queryParamsReadableData.rate?.carrierAccount || 'N/A'
+  }</p>
+  <p><strong>Zone:</strong> ${queryParamsReadableData.rate?.zone || 'N/A'}</p>
+  <p><strong>Insurance Included:</strong> ${
+    queryParamsReadableData.rate?.includedInsurancePrice || 'N/A'
+  }</p>
+  <p><strong>Created On:</strong> ${
+    queryParamsReadableData.rate?.objectCreated || 'N/A'
+  }</p>
+  <p><strong>Owner:</strong> ${
+    queryParamsReadableData.rate?.objectOwner || 'N/A'
+  }</p>
+  <p><strong>Test Mode:</strong> ${
+    queryParamsReadableData.rate?.test ? 'Yes' : 'No'
+  }</p>
+`;
 
     // Combine and display data
-    finalDataContainer.innerHTML = formDataHTML + readableDataHTML;
+    // finalDataContainer.innerHTML = formDataHTML + readableDataHTML;
+    finalDataContainer.innerHTML =
+      formDataHTML + shipmentDetailsHTML + rateDetailsHTML;
   }
 
   document.querySelectorAll('.next-step').forEach((button) => {
