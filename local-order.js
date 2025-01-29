@@ -227,26 +227,26 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     console.log({ allData });
 
-    // try {
-    //   const response = await fetch(
-    //     'https://hook.us2.make.com/bil7j8nn1xl1esjshvvi12as4uinhir3',
-    //     {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify(allData),
-    //     },
-    //   );
+    try {
+      const response = await fetch(
+        'https://hook.us2.make.com/bil7j8nn1xl1esjshvvi12as4uinhir3',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(allData),
+        },
+      );
 
-    //   if (response.ok) {
-    //     console.log('Data successfully sent to webhook', response);
-    //   } else {
-    //     console.error('Failed to send data to webhook:', response.statusText);
-    //   }
-    // } catch (error) {
-    //   console.error('Error sending data to webhook:', error);
-    // }
+      if (response.ok) {
+        console.log('Data successfully sent to webhook', response);
+      } else {
+        console.error('Failed to send data to webhook:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error sending data to webhook:', error);
+    }
   }
 
   cardButton.addEventListener('click', async function (event) {
