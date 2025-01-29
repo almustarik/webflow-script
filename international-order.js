@@ -198,7 +198,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     };
 
     console.log({ billingDetails });
-    // const billingDetails = {
+    console.log({ senderAddress: readableData.senderAddress });
+    // const billingDetailsModifies = {
     //   givenName: formData.step1.name,
     //   familyName: formData.step1.name,
     //   email: formData.step1.email,
