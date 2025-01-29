@@ -187,17 +187,19 @@ document.addEventListener('DOMContentLoaded', async function () {
     console.log({ step1: formData.step1, step2: formData.step2 });
     const amountInput = '1.00';
     const billingDetails = {
-      givenName: 'John',
-      familyName: 'Doe',
-      email: 'john.doe@example.com',
-      phone: '1234567890',
-      addressLines: ['123 Main Street'],
-      city: 'London',
-      state: 'LND',
+      givenName: formData.step1.name,
+      familyName: formData.step1.name,
+      email: formData.step1.email,
+      phone: formData.step1.phone,
+      // addressLines: ['123 Main Street'],
+      addressLines: [readableData.senderAddress.street],
+      city: readableData.senderAddress.city,
+      state: readableData.senderAddress.state,
       countryCode: 'GB',
     };
 
     console.log({ billingDetails });
+
     console.log({ senderAddress: readableData.senderAddress });
     // const billingDetailsModifies = {
     //   givenName: formData.step1.name,
