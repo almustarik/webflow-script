@@ -64,6 +64,7 @@ function parseReadableData(queryParams) {
     dimensions,
     weight,
     rate: readableData.rate || {},
+    productDescription: readableData.step3 || {},
   };
 }
 

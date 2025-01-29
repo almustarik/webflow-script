@@ -565,11 +565,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Determine the correct URL based on type
-    // const url =
-    //   type === 'international'
-    //     ? '/original/international-order.html'
-    //     : '/original/order.html';
-    const url = type === 'international' ? 'international-order' : 'order';
+    const url =
+      type === 'international'
+        ? '/original/international-order.html'
+        : '/original/order.html';
+    // const url = type === 'international' ? 'international-order' : 'order';
 
     // Redirect to the appropriate URL
     window.location.href = `${url}?${queryParams.toString()}`;
