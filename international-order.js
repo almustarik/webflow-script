@@ -252,7 +252,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       );
 
       if (response.ok) {
-        console.log('Data successfully sent to webhook');
+        console.log('Data successfully sent to webhook', response);
       } else {
         console.error('Failed to send data to webhook:', response.statusText);
       }
