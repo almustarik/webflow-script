@@ -184,33 +184,17 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   async function verifyBuyer(payments, token) {
-    console.log({ step1: formData.step1, step2: formData.step2 });
     const amountInput = '1.00';
     const billingDetails = {
       givenName: formData.step1.name,
       familyName: formData.step1.name,
       email: formData.step1.email,
       phone: formData.step1.phone,
-      // addressLines: ['123 Main Street'],
       addressLines: [readableData.senderAddress.street],
       city: readableData.senderAddress.city,
       state: readableData.senderAddress.state,
       countryCode: 'GB',
     };
-
-    console.log({ billingDetails });
-
-    console.log({ senderAddress: readableData.senderAddress });
-    // const billingDetailsModifies = {
-    //   givenName: formData.step1.name,
-    //   familyName: formData.step1.name,
-    //   email: formData.step1.email,
-    //   phone: formData.step1.phone,
-    //   addressLines: [readableData.step1.street],
-    //   city: readableData.step1.city,
-    //   state: readableData.step1.state,
-    //   countryCode: 'GB',
-    // };
 
     const verificationDetails = {
       amount: amountInput,
@@ -265,6 +249,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   const internationalContainer = document.getElementById(
     'internationalContainer',
   );
+
   // Step switching functionality Start
   const steps = document.querySelectorAll('.step');
   const stepContents = document.querySelectorAll('.step-content');
@@ -319,24 +304,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     );
   }
 
-  //     // Display final step data
-  //     function displayFinalData() {
-  //       const finalDataContainer = document.querySelector('#final-step-data');
-  //       finalDataContainer.innerHTML = `
-  //   <h3>Sender Information</h3>
-  //   <p><strong>Street:</strong> ${formData.step1.street || ''}</p>
-  //   <p><strong>State:</strong> ${formData.step1.state || ''}</p>
-  //   <p><strong>City:</strong> ${formData.step1.city || ''}</p>
-  //   <p><strong>Postal Code:</strong> ${formData.step1.postalCode || ''}</p>
-
-  //   <h3>Receiver Information</h3>
-  //   <p><strong>Street:</strong> ${formData.step2.street || ''}</p>
-  //   <p><strong>State:</strong> ${formData.step2.state || ''}</p>
-  //   <p><strong>City:</strong> ${formData.step2.city || ''}</p>
-  //   <p><strong>Postal Code:</strong> ${formData.step2.postalCode || ''}</p>
-  // `;
-  //     }
-
   // Display final step data
   function displayFinalData() {
     const finalDataContainer = document.querySelector('#final-step-data');
@@ -346,93 +313,113 @@ document.addEventListener('DOMContentLoaded', async function () {
       <h3>Sender Information</h3>
       <p><strong>Name:</strong> ${formData.step1.name || ''}</p>
       <p><strong>Email:</strong> ${formData.step1.email || ''}</p>
-      <p><strong>Street:</strong> ${formData.step1.phone || ''}</p>
-  <p>Street: ${readableData.senderAddress?.street || 'N/A'}</p>
-  <p>State: ${readableData.senderAddress?.state || 'N/A'}</p>
-  <p>City: ${readableData.senderAddress?.city || 'N/A'}</p>
-  <p>Postal Code: ${readableData.senderAddress?.postalCode || 'N/A'}</p>
+      <p><strong>Phone:</strong> ${formData.step1.phone || ''}</p>
+      <p><strong>Street:</strong> ${
+        readableData.senderAddress?.street || 'N/A'
+      }</p>
+      <p><strong>State:</strong> ${
+        readableData.senderAddress?.state || 'N/A'
+      }</p>
+      <p><strong>City:</strong> ${readableData.senderAddress?.city || 'N/A'}</p>
+      <p><strong>Postal Code:</strong> ${
+        readableData.senderAddress?.postalCode || 'N/A'
+      }</p>
       
       <h3>Receiver Information</h3>
       <p><strong>Name:</strong> ${formData.step2.name || ''}</p>
       <p><strong>Email:</strong> ${formData.step2.email || ''}</p>
-      <p><strong>Street:</strong> ${formData.step2.phone || ''}</p>
-  <p>Street: ${readableData.receiverAddress?.street || 'N/A'}</p>
-  <p>State: ${readableData.receiverAddress?.state || 'N/A'}</p>
-  <p>City: ${readableData.receiverAddress?.city || 'N/A'}</p>
-  <p>Postal Code: ${readableData.receiverAddress?.postalCode || 'N/A'}</p>
+      <p><strong>Phone:</strong> ${formData.step2.phone || ''}</p>
+      <p><strong>Street:</strong> ${
+        readableData.receiverAddress?.street || 'N/A'
+      }</p>
+      <p><strong>State:</strong> ${
+        readableData.receiverAddress?.state || 'N/A'
+      }</p>
+      <p><strong>City:</strong> ${
+        readableData.receiverAddress?.city || 'N/A'
+      }</p>
+      <p><strong>Postal Code:</strong> ${
+        readableData.receiverAddress?.postalCode || 'N/A'
+      }</p>
     `;
 
-    // Readable Data Display
-    //       const readableDataHTML = `
-    //   <h3>Shipping Details</h3>
-    //   <p><strong>Sender Zip Code:</strong> ${readableData.senderZipCode}</p>
-    //   <p><strong>Receiver Zip Code:</strong> ${readableData.receiverZipCode}</p>
-    //   <p><strong>Dimensions:</strong> ${readableData.dimensions}</p>
-    //   <p><strong>Weight:</strong> ${readableData.weight}</p>
-    //   <p><strong>Rate Amount:</strong> ${readableData.rate.amount} ${readableData.rate.currency}</p>
-    //   <p><strong>Retail Amount:</strong> ${readableData.rate.retailAmount} ${readableData.rate.currency}</p>
-    //   <p><strong>Service Level Name:</strong> ${readableData.rate.serviceLevelName}</p>
-    //   <p><strong>Delivery Days:</strong> ${readableData.rate.deliveryDaysMin} - ${readableData.rate.deliveryDaysMax}</p>
-    //   <p><strong>Provider:</strong> ${readableData.rate.provider}</p>
-    //   <p><img src="${readableData.rate.providerLogo}" alt="${readableData.rate.provider}" style="height: 40px;"></p>
-    // `;
+    // <h3>Shipment Details:</h3>
+    // <p><strong>Product Description:</strong> ${
+    //   readableData.step3?.productDescription || 'N/A'
+    // }</p>
+    // <p><strong>Product Quantity:</strong> ${
+    //   readableData.step3?.productQuantity || 'N/A'
+    // }</p>
+    // <p><strong>Product Value:</strong> ${
+    //   readableData.step3?.productValue || 'N/A'
+    // }</p>
+    // <p><strong>Country of Origin:</strong> ${
+    //   readableData.step3?.countryOfOrigin || 'N/A'
+    // }</p>
+    // <p><strong>Purpose of Shipment:</strong> ${
+    //   readableData.step3?.purposeOfShipments || 'N/A'
+    // }</p>
+    // <p><strong>Dimensions:</strong> ${readableData.dimensions || 'N/A'}</p>
+    // <p><strong>Weight:</strong> ${readableData.weight || 'N/A'}</p>
     const readableDataHTML = `
-  
-  <h3>Shipment Details:</h3>
+
+
+
+     <h3>Shipment Details:</h3>
   <p><strong>Product Description:</strong> ${
-    readableData.step3?.productDescription || 'N/A'
+    readableData.productDescription?.productDescription || 'N/A'
   }</p>
   <p><strong>Product Quantity:</strong> ${
-    readableData.step3?.productQuantity || 'N/A'
+    readableData.productDescription?.productQuantity || 'N/A'
   }</p>
   <p><strong>Product Value:</strong> ${
-    readableData.step3?.productValue || 'N/A'
+    readableData.productDescription?.productValue || 'N/A'
   }</p>
   <p><strong>Country of Origin:</strong> ${
-    readableData.step3?.countryOfOrigin || 'N/A'
+    readableData.productDescription?.countryOfOrigin || 'N/A'
   }</p>
   <p><strong>Purpose of Shipment:</strong> ${
-    readableData.step3?.purposeOfShipments || 'N/A'
+    readableData.productDescription?.purposeOfShipments || 'N/A'
   }</p>
   <p><strong>Dimensions:</strong> ${readableData.dimensions || 'N/A'}</p>
   <p><strong>Weight:</strong> ${readableData.weight || 'N/A'}</p>
-  
-  <h3>Rate Details:</h3>
-  <p><strong>Amount:</strong> ${readableData.rate?.amount || 'N/A'} ${
+    
+    <h3>Rate Details:</h3>
+    <p><strong>Amount:</strong> ${readableData.rate?.amount || 'N/A'} ${
       readableData.rate?.currency || 'N/A'
     }</p>
-  <p><strong>Retail Amount:</strong> ${
-    readableData.rate?.retailAmount || 'N/A'
-  } ${readableData.rate?.currency || 'N/A'}</p>
-  <p><strong>Attributes:</strong> ${
-    readableData.rate?.attributes?.join(', ') || 'N/A'
-  }</p>
-  <p><strong>Service Level:</strong> ${
-    readableData.rate?.servicelevel?.name || 'N/A'
-  }</p>
-  <p><strong>Delivery Days:</strong> ${
-    readableData.rate?.estimatedDays || 'N/A'
-  }</p>
-  <p><strong>Provider:</strong> ${readableData.rate?.provider || 'N/A'}</p>
-  <p><img src="${readableData.rate?.providerImage_75 || ''}" alt="${
+    <p><strong>Retail Amount:</strong> ${
+      readableData.rate?.retailAmount || 'N/A'
+    } ${readableData.rate?.currency || 'N/A'}</p>
+    <p><strong>Attributes:</strong> ${
+      readableData.rate?.attributes?.join(', ') || 'N/A'
+    }</p>
+    <p><strong>Service Level:</strong> ${
+      readableData.rate?.servicelevel?.name || 'N/A'
+    }</p>
+    <p><strong>Delivery Days:</strong> ${
+      readableData.rate?.estimatedDays || 'N/A'
+    }</p>
+    <p><strong>Provider:</strong> ${readableData.rate?.provider || 'N/A'}</p>
+    <p><img src="${readableData.rate?.providerImage_75 || ''}" alt="${
       readableData.rate?.provider || ''
     }" style="height: 40px;"></p>
-  <p><strong>Duration Terms:</strong> ${
-    readableData.rate?.durationTerms || 'N/A'
-  }</p>
-  <p><strong>Carrier Account:</strong> ${
-    readableData.rate?.carrierAccount || 'N/A'
-  }</p>
-  <p><strong>Zone:</strong> ${readableData.rate?.zone || 'N/A'}</p>
-  <p><strong>Insurance Included:</strong> ${
-    readableData.rate?.includedInsurancePrice || 'N/A'
-  }</p>
-  <p><strong>Created On:</strong> ${
-    readableData.rate?.objectCreated || 'N/A'
-  }</p>
-  <p><strong>Owner:</strong> ${readableData.rate?.objectOwner || 'N/A'}</p>
-  <p><strong>Test Mode:</strong> ${readableData.rate?.test ? 'Yes' : 'No'}</p>
-`;
+    <p><strong>Duration Terms:</strong> ${
+      readableData.rate?.durationTerms || 'N/A'
+    }</p>
+    <p><strong>Carrier Account:</strong> ${
+      readableData.rate?.carrierAccount || 'N/A'
+    }</p>
+    <p><strong>Zone:</strong> ${readableData.rate?.zone || 'N/A'}</p>
+    <p><strong>Insurance Included:</strong> ${
+      readableData.rate?.includedInsurancePrice || 'N/A'
+    }</p>
+    <p><strong>Created On:</strong> ${
+      readableData.rate?.objectCreated || 'N/A'
+    }</p>
+    <p><strong>Owner:</strong> ${readableData.rate?.objectOwner || 'N/A'}</p>
+    <p><strong>Test Mode:</strong> ${readableData.rate?.test ? 'Yes' : 'No'}</p>
+  `;
 
     // Combine and display data
     finalDataContainer.innerHTML = formDataHTML + readableDataHTML;
