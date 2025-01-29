@@ -422,68 +422,60 @@ document.addEventListener('DOMContentLoaded', async function () {
     const shipmentDetailsHTML = `
   <h3>Shipment Details:</h3>
   <p><strong>Product Description:</strong> ${
-    queryParamsReadableData.productDescription?.productDescription || 'N/A'
+    readableData.productDescription?.productDescription || 'N/A'
   }</p>
   <p><strong>Product Quantity:</strong> ${
-    queryParamsReadableData.productDescription?.productQuantity || 'N/A'
+    readableData.productDescription?.productQuantity || 'N/A'
   }</p>
   <p><strong>Product Value:</strong> ${
-    queryParamsReadableData.productDescription?.productValue || 'N/A'
+    readableData.productDescription?.productValue || 'N/A'
   }</p>
   <p><strong>Country of Origin:</strong> ${
-    queryParamsReadableData.productDescription?.countryOfOrigin || 'N/A'
+    readableData.productDescription?.countryOfOrigin || 'N/A'
   }</p>
   <p><strong>Purpose of Shipment:</strong> ${
-    queryParamsReadableData.productDescription?.purposeOfShipments || 'N/A'
+    readableData.productDescription?.purposeOfShipments || 'N/A'
   }</p>
-  <p><strong>Dimensions:</strong> ${
-    queryParamsReadableData.dimensions || 'N/A'
-  }</p>
-  <p><strong>Weight:</strong> ${queryParamsReadableData.weight || 'N/A'}</p>
+  <p><strong>Dimensions:</strong> ${readableData.dimensions || 'N/A'}</p>
+  <p><strong>Weight:</strong> ${readableData.weight || 'N/A'}</p>
 `;
 
     const rateDetailsHTML = `
   <h3>Rate Details:</h3>
-  <p><strong>Amount:</strong> ${
-    queryParamsReadableData.rate?.amount || 'N/A'
-  } ${queryParamsReadableData.rate?.currency || 'N/A'}</p>
+  <p><strong>Amount:</strong> ${readableData.rate?.amount || 'N/A'} ${
+      readableData.rate?.currency || 'N/A'
+    }</p>
   <p><strong>Retail Amount:</strong> ${
-    queryParamsReadableData.rate?.amountLocal || 'N/A'
-  } ${queryParamsReadableData.rate?.currencyLocal || 'N/A'}</p>
+    readableData.rate?.amountLocal || 'N/A'
+  } ${readableData.rate?.currencyLocal || 'N/A'}</p>
   <p><strong>Attributes:</strong> ${
-    queryParamsReadableData.rate?.attributes?.join(', ') || 'N/A'
+    readableData.rate?.attributes?.join(', ') || 'N/A'
   }</p>
   <p><strong>Service Level:</strong> ${
-    queryParamsReadableData.rate?.servicelevel?.name || 'N/A'
+    readableData.rate?.servicelevel?.name || 'N/A'
   }</p>
   <p><strong>Delivery Days:</strong> ${
-    queryParamsReadableData.rate?.estimatedDays || 'N/A'
+    readableData.rate?.estimatedDays || 'N/A'
   }</p>
-  <p><strong>Provider:</strong> ${
-    queryParamsReadableData.rate?.provider || 'N/A'
-  }</p>
-  <p><img src="${queryParamsReadableData.rate?.providerImage_75 || ''}" alt="${
-      queryParamsReadableData.rate?.provider || ''
+  <p><strong>Provider:</strong> ${readableData.rate?.provider || 'N/A'}</p>
+  <p><img src="${readableData.rate?.providerImage_75 || ''}" alt="${
+      readableData.rate?.provider || ''
     }" style="height: 40px; width: 40px;"></p>
   <p><strong>Duration Terms:</strong> ${
-    queryParamsReadableData.rate?.durationTerms || 'N/A'
+    readableData.rate?.durationTerms || 'N/A'
   }</p>
   <p><strong>Carrier Account:</strong> ${
-    queryParamsReadableData.rate?.carrierAccount || 'N/A'
+    readableData.rate?.carrierAccount || 'N/A'
   }</p>
-  <p><strong>Zone:</strong> ${queryParamsReadableData.rate?.zone || 'N/A'}</p>
+  <p><strong>Zone:</strong> ${readableData.rate?.zone || 'N/A'}</p>
   <p><strong>Insurance Included:</strong> ${
-    queryParamsReadableData.rate?.includedInsurancePrice || 'N/A'
+    readableData.rate?.includedInsurancePrice || 'N/A'
   }</p>
   <p><strong>Created On:</strong> ${
-    queryParamsReadableData.rate?.objectCreated || 'N/A'
+    readableData.rate?.objectCreated || 'N/A'
   }</p>
-  <p><strong>Owner:</strong> ${
-    queryParamsReadableData.rate?.objectOwner || 'N/A'
-  }</p>
-  <p><strong>Test Mode:</strong> ${
-    queryParamsReadableData.rate?.test ? 'Yes' : 'No'
-  }</p>
+  <p><strong>Owner:</strong> ${readableData.rate?.objectOwner || 'N/A'}</p>
+  <p><strong>Test Mode:</strong> ${readableData.rate?.test ? 'Yes' : 'No'}</p>
 `;
 
     // Combine and display data
