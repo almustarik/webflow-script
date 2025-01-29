@@ -8,69 +8,44 @@ function getQueryParams() {
 
 function parseReadableData(queryParams) {
   const readableData = { ...queryParams }; // Clone the input object
-  console.log({ readableData });
-  // Decode and parse JSON fields if present
-  const parseJSONField = (fieldName) => {
-    if (readableData[fieldName]) {
-      try {
-        readableData[fieldName] = JSON.parse(
-          decodeURIComponent(readableData[fieldName]),
-        );
-      } catch (e) {
-        console.error(
-          `Error decoding and parsing '${fieldName}' parameter:`,
-          e,
-        );
-      }
-    }
-  };
 
-  // Decode and parse specific fields
-  ['rate', 'step1', 'step2', 'step3'].forEach(parseJSONField);
-
-  // Convert rate keys to camelCase and format the data
-  if (readableData.rate) {
-    const toCamelCase = (str) =>
-      str.replace(/([-_][a-z])/gi, (match) =>
-        match.toUpperCase().replace(/[-_]/g, ''),
-      );
-
-    readableData.rate = Object.fromEntries(
-      Object.entries(readableData.rate).map(([key, value]) => [
-        toCamelCase(key),
-        value,
-      ]),
+  // Helper function to convert a string to camelCase
+  const toCamelCase = (str) =>
+    str.replace(/([-_][a-z])/gi, (match) =>
+      match.toUpperCase().replace(/[-_]/g, ''),
     );
+
+  // Decode and parse the `rate` field
+  if (readableData.rate) {
+    try {
+      readableData.rate = JSON.parse(decodeURIComponent(readableData.rate));
+    } catch (e) {
+      console.error("Error decoding and parsing 'rate' parameter:", e);
+    }
   }
 
-  // Extract and format dimensions and weight
-  const dimensions = readableData.step3
-    ? `${readableData.step3.length || 'N/A'} x ${
-        readableData.step3.width || 'N/A'
-      } x ${readableData.step3.height || 'N/A'} (${
-        readableData.step3.dimensionUnit || 'N/A'
-      })`
-    : 'N/A';
-
-  const weight = readableData.step3
-    ? `${readableData.step3.weight || 'N/A'} ${
-        readableData.step3.weightUnit || 'N/A'
-      }`
-    : 'N/A';
-
-  return {
-    senderAddress: readableData.step1 || {},
-    receiverAddress: readableData.step2 || {},
-    dimensions,
-    weight,
-    rate: readableData.rate || {},
+  // Convert keys to camelCase and format the data
+  const formattedData = {
+    senderZipCode: readableData.fromZip,
+    receiverZipCode: readableData.toZip,
+    dimensions: `${readableData.length} x ${readableData.width} x ${readableData.height} (${readableData.dimensionUnit})`,
+    weight: `${readableData.weight} ${readableData.weightUnit}`,
+    rate: readableData.rate
+      ? Object.fromEntries(
+          Object.entries(readableData.rate).map(([key, value]) => [
+            toCamelCase(key),
+            value,
+          ]),
+        )
+      : 'N/A',
   };
+
+  return formattedData;
 }
 
 function extractAmountFromRate(rateParam) {
   try {
     const rate = JSON.parse(decodeURIComponent(rateParam));
-    console.log({ rate });
     return rate.amount;
     // return rate.retail_amount;
   } catch (e) {
@@ -82,7 +57,7 @@ function extractAmountFromRate(rateParam) {
 document.addEventListener('DOMContentLoaded', async function () {
   const queryParams = getQueryParams();
   const readableData = parseReadableData(queryParams);
-  console.log({ queryParamsReadableData: readableData });
+  console.log({ readableData });
   const rateParam = queryParams.rate;
   const amount = extractAmountFromRate(rateParam);
   const formData = {
@@ -185,28 +160,26 @@ document.addEventListener('DOMContentLoaded', async function () {
   async function verifyBuyer(payments, token) {
     console.log({ step1: formData.step1, step2: formData.step2 });
     const amountInput = '1.00';
+    /*const billingDetails = {
+            givenName: 'John',
+            familyName: 'Doe',
+            email: 'john.doe@example.com',
+            phone: '1234567890',
+            addressLines: ['123 Main Street'],
+            city: 'London',
+            state: 'LND',
+            countryCode: 'GB',
+          };*/
     const billingDetails = {
-      givenName: 'John',
-      familyName: 'Doe',
-      email: 'john.doe@example.com',
-      phone: '1234567890',
-      addressLines: ['123 Main Street'],
-      city: 'London',
-      state: 'LND',
+      givenName: formData.step1.name,
+      familyName: formData.step1.name,
+      email: formData.step1.email,
+      phone: formData.step1.phone,
+      addressLines: [formData.step1.street],
+      city: formData.step1.city,
+      state: formData.step1.state,
       countryCode: 'GB',
     };
-
-    console.log({ billingDetails });
-    // const billingDetails = {
-    //   givenName: formData.step1.name,
-    //   familyName: formData.step1.name,
-    //   email: formData.step1.email,
-    //   phone: formData.step1.phone,
-    //   addressLines: [readableData.step1.street],
-    //   city: readableData.step1.city,
-    //   state: readableData.step1.state,
-    //   countryCode: 'GB',
-    // };
 
     const verificationDetails = {
       amount: amountInput,
@@ -342,93 +315,38 @@ document.addEventListener('DOMContentLoaded', async function () {
       <h3>Sender Information</h3>
       <p><strong>Name:</strong> ${formData.step1.name || ''}</p>
       <p><strong>Email:</strong> ${formData.step1.email || ''}</p>
-      <p><strong>Street:</strong> ${formData.step1.phone || ''}</p>
-  <p>Street: ${readableData.senderAddress?.street || 'N/A'}</p>
-  <p>State: ${readableData.senderAddress?.state || 'N/A'}</p>
-  <p>City: ${readableData.senderAddress?.city || 'N/A'}</p>
-  <p>Postal Code: ${readableData.senderAddress?.postalCode || 'N/A'}</p>
+      <p><strong>Street:</strong> ${formData.step1.street || ''}</p>
+      <p><strong>State:</strong> ${formData.step1.state || ''}</p>
+      <p><strong>City:</strong> ${formData.step1.city || ''}</p>
+      <p style="display: none"><strong>Postal Code:</strong> ${
+        formData.step1.postalCode || ''
+      }</p>
       
       <h3>Receiver Information</h3>
       <p><strong>Name:</strong> ${formData.step2.name || ''}</p>
       <p><strong>Email:</strong> ${formData.step2.email || ''}</p>
-      <p><strong>Street:</strong> ${formData.step2.phone || ''}</p>
-  <p>Street: ${readableData.receiverAddress?.street || 'N/A'}</p>
-  <p>State: ${readableData.receiverAddress?.state || 'N/A'}</p>
-  <p>City: ${readableData.receiverAddress?.city || 'N/A'}</p>
-  <p>Postal Code: ${readableData.receiverAddress?.postalCode || 'N/A'}</p>
+      <p><strong>Street:</strong> ${formData.step2.street || ''}</p>
+      <p><strong>State:</strong> ${formData.step2.state || ''}</p>
+      <p><strong>City:</strong> ${formData.step2.city || ''}</p>
+      <p style="display: none"><strong>Postal Code:</strong> ${
+        formData.step2.postalCode || ''
+      }</p>
     `;
 
     // Readable Data Display
-    //       const readableDataHTML = `
-    //   <h3>Shipping Details</h3>
-    //   <p><strong>Sender Zip Code:</strong> ${readableData.senderZipCode}</p>
-    //   <p><strong>Receiver Zip Code:</strong> ${readableData.receiverZipCode}</p>
-    //   <p><strong>Dimensions:</strong> ${readableData.dimensions}</p>
-    //   <p><strong>Weight:</strong> ${readableData.weight}</p>
-    //   <p><strong>Rate Amount:</strong> ${readableData.rate.amount} ${readableData.rate.currency}</p>
-    //   <p><strong>Retail Amount:</strong> ${readableData.rate.retailAmount} ${readableData.rate.currency}</p>
-    //   <p><strong>Service Level Name:</strong> ${readableData.rate.serviceLevelName}</p>
-    //   <p><strong>Delivery Days:</strong> ${readableData.rate.deliveryDaysMin} - ${readableData.rate.deliveryDaysMax}</p>
-    //   <p><strong>Provider:</strong> ${readableData.rate.provider}</p>
-    //   <p><img src="${readableData.rate.providerLogo}" alt="${readableData.rate.provider}" style="height: 40px;"></p>
-    // `;
     const readableDataHTML = `
-  
-  <h3>Shipment Details:</h3>
-  <p><strong>Product Description:</strong> ${
-    readableData.step3?.productDescription || 'N/A'
-  }</p>
-  <p><strong>Product Quantity:</strong> ${
-    readableData.step3?.productQuantity || 'N/A'
-  }</p>
-  <p><strong>Product Value:</strong> ${
-    readableData.step3?.productValue || 'N/A'
-  }</p>
-  <p><strong>Country of Origin:</strong> ${
-    readableData.step3?.countryOfOrigin || 'N/A'
-  }</p>
-  <p><strong>Purpose of Shipment:</strong> ${
-    readableData.step3?.purposeOfShipments || 'N/A'
-  }</p>
-  <p><strong>Dimensions:</strong> ${readableData.dimensions || 'N/A'}</p>
-  <p><strong>Weight:</strong> ${readableData.weight || 'N/A'}</p>
-  
-  <h3>Rate Details:</h3>
-  <p><strong>Amount:</strong> ${readableData.rate?.amount || 'N/A'} ${
-      readableData.rate?.currency || 'N/A'
-    }</p>
-  <p><strong>Retail Amount:</strong> ${
-    readableData.rate?.retailAmount || 'N/A'
-  } ${readableData.rate?.currency || 'N/A'}</p>
-  <p><strong>Attributes:</strong> ${
-    readableData.rate?.attributes?.join(', ') || 'N/A'
-  }</p>
-  <p><strong>Service Level:</strong> ${
-    readableData.rate?.servicelevel?.name || 'N/A'
-  }</p>
-  <p><strong>Delivery Days:</strong> ${
-    readableData.rate?.estimatedDays || 'N/A'
-  }</p>
-  <p><strong>Provider:</strong> ${readableData.rate?.provider || 'N/A'}</p>
-  <p><img src="${readableData.rate?.providerImage_75 || ''}" alt="${
-      readableData.rate?.provider || ''
-    }" style="height: 40px;"></p>
-  <p><strong>Duration Terms:</strong> ${
-    readableData.rate?.durationTerms || 'N/A'
-  }</p>
-  <p><strong>Carrier Account:</strong> ${
-    readableData.rate?.carrierAccount || 'N/A'
-  }</p>
-  <p><strong>Zone:</strong> ${readableData.rate?.zone || 'N/A'}</p>
-  <p><strong>Insurance Included:</strong> ${
-    readableData.rate?.includedInsurancePrice || 'N/A'
-  }</p>
-  <p><strong>Created On:</strong> ${
-    readableData.rate?.objectCreated || 'N/A'
-  }</p>
-  <p><strong>Owner:</strong> ${readableData.rate?.objectOwner || 'N/A'}</p>
-  <p><strong>Test Mode:</strong> ${readableData.rate?.test ? 'Yes' : 'No'}</p>
-`;
+      <h3>Shipping Details</h3>
+      <p><strong>Sender Zip Code:</strong> ${readableData.senderZipCode}</p>
+      <p><strong>Receiver Zip Code:</strong> ${readableData.receiverZipCode}</p>
+      <p><strong>Dimensions:</strong> ${readableData.dimensions}</p>
+      <p><strong>Weight:</strong> ${readableData.weight}</p>
+      <p><strong>Rate Amount:</strong> ${readableData.rate.amount} ${readableData.rate.currency}</p>
+      <p><strong>Retail Amount:</strong> ${readableData.rate.retailAmount} ${readableData.rate.currency}</p>
+      <p><strong>Service Level Name:</strong> ${readableData.rate.serviceLevelName}</p>
+      <p><strong>Delivery Days:</strong> ${readableData.rate.deliveryDaysMin} - ${readableData.rate.deliveryDaysMax}</p>
+      <p><strong>Provider:</strong> ${readableData.rate.provider}</p>
+      <p><img src="${readableData.rate.providerLogo}" alt="${readableData.rate.provider}" style="height: 40px;"></p>
+    `;
 
     // Combine and display data
     finalDataContainer.innerHTML = formDataHTML + readableDataHTML;
