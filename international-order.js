@@ -347,11 +347,17 @@ document.addEventListener('DOMContentLoaded', async function () {
     const finalDataContainer = document.querySelector('#final-step-data');
 
     // Form Data Display
+    // <p><strong>Name:</strong> ${formData.step1.name || ''}</p>
+    // <p><strong>Email:</strong> ${formData.step1.email || ''}</p>
+    // <p><strong>Phone:</strong> ${formData.step1.phone || ''}</p>
+    // <p><strong>Name:</strong> ${formData.step2.name || ''}</p>
+    // <p><strong>Email:</strong> ${formData.step2.email || ''}</p>
+    // <p><strong>Phone:</strong> ${formData.step2.phone || ''}</p>
     const formDataHTML = `
       <h3>Sender Information</h3>
-      <p><strong>Name:</strong> ${formData.step1.name || ''}</p>
-      <p><strong>Email:</strong> ${formData.step1.email || ''}</p>
-      <p><strong>Phone:</strong> ${formData.step1.phone || ''}</p>
+      <p><strong>Name:</strong> ${readableData.senderAddress?.name || ''}</p>
+      <p><strong>Email:</strong> ${readableData.senderAddress?.email || ''}</p>
+      <p><strong>Phone:</strong> ${readableData.senderAddress?.Phone || ''}</p>
       <p><strong>Street:</strong> ${
         readableData.senderAddress?.street || 'N/A'
       }</p>
@@ -364,9 +370,13 @@ document.addEventListener('DOMContentLoaded', async function () {
       }</p>
       
       <h3>Receiver Information</h3>
-      <p><strong>Name:</strong> ${formData.step2.name || ''}</p>
-      <p><strong>Email:</strong> ${formData.step2.email || ''}</p>
-      <p><strong>Phone:</strong> ${formData.step2.phone || ''}</p>
+      <p><strong>Name:</strong> ${readableData.receiverAddress?.name || ''}</p>
+      <p><strong>Email:</strong> ${
+        readableData.receiverAddress?.email || ''
+      }</p>
+      <p><strong>Phone:</strong> ${
+        readableData.receiverAddress?.Phone || ''
+      }</p>
       <p><strong>Street:</strong> ${
         readableData.receiverAddress?.street || 'N/A'
       }</p>
