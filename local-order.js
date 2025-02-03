@@ -568,7 +568,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   updateStepper(currentStep);
 
   // Enable/Disable "Next" button based on checkbox state
-  // const confirmCheckbox = document.getElementById('confirm-checkbox');
+  const confirmCheckbox = document.getElementById('confirm-checkbox');
   // const nextStepButton = document.getElementById('next-step-button');
 
   confirmCheckbox.addEventListener('change', function () {
