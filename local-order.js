@@ -492,6 +492,26 @@ document.addEventListener('DOMContentLoaded', async function () {
     // <p><strong>Receiver Zip Code:</strong> ${readableData.receiverZipCode}</p>
     // <p><strong>Dimensions:</strong> ${readableData.dimensions}</p>
     // <p><strong>Retail Amount:</strong> ${readableData.rate.retailAmount} ${readableData.rate.currency}</p>
+
+    // Product Description
+    const productDetailsHTML = `
+    <h3>Product Details:</h3>
+    <p><strong>Dimensions:</strong> ${readableData.dimensions || 'N/A'}</p>
+    <p><strong>Weight:</strong> ${readableData.weight || 'N/A'}</p>
+    <p><strong>Length:</strong> ${
+      readableData.productDescription?.length || 'N/A'
+    } ${readableData.productDescription?.dimensionUnit || ''}</p>
+    <p><strong>Width:</strong> ${
+      readableData.productDescription?.width || 'N/A'
+    } ${readableData.productDescription?.dimensionUnit || ''}</p>
+    <p><strong>Height:</strong> ${
+      readableData.productDescription?.height || 'N/A'
+    } ${readableData.productDescription?.dimensionUnit || ''}</p>
+    <p><strong>Weight:</strong> ${
+      readableData.productDescription?.weight || 'N/A'
+    } ${readableData.productDescription?.weightUnit || ''}</p>
+  `;
+
     const rateDetailsHTML = `
       <h3>Rate Details:</h3>
       <p><strong>Amount:</strong> ${readableData.rate?.amount || 'N/A'} ${
@@ -530,7 +550,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     `;
 
     // Combine and display data
-    finalDataContainer.innerHTML = formDataHTML + rateDetailsHTML;
+    finalDataContainer.innerHTML =
+      formDataHTML + productDetailsHTML + rateDetailsHTML;
   }
 
   document.querySelectorAll('.next-step').forEach((button) => {
