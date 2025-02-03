@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function () {
     rateEstimate: 'https://rc.goshippo.com/ratings/estimate',
     // webhook: 'https://hook.eu2.make.com/jaohruuqta4lye7eo4ieqtr3ljbghmlc',
     webhook: 'https://hook.us2.make.com/iabjf8x5okv7te05wyeywr47oi4nk4cm',
+    localHook: 'https://hook.us2.make.com/kskru6omra5gcjddbjhy0ba7dqingygk',
   };
 
   function validateStep(step) {
@@ -324,6 +325,31 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         body: JSON.stringify(payload),
       });
+
+      const hookResponse = await fetch(API_URLS.localHook, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!hookResponse.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const arrayBuffer = await hookResponse.arrayBuffer();
+
+      // Decode the ArrayBuffer to a string
+      const decoder = new TextDecoder('utf-8');
+      const decodedString = decoder.decode(arrayBuffer);
+
+      // Parse the JSON string
+      const newData = JSON.parse(decodedString);
+
+      console.log('Response Data:', newData);
+      // Handle the response data here
+      // displayResultsInternational(data);
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
