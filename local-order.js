@@ -233,15 +233,27 @@ document.addEventListener('DOMContentLoaded', async function () {
             state: 'LND',
             countryCode: 'GB',
           };*/
+    // const billingDetails = {
+    //   givenName: formData.step1.name,
+    //   familyName: formData.step1.name,
+    //   email: formData.step1.email,
+    //   phone: formData.step1.phone,
+    //   addressLines: [formData.step1.street],
+    //   city: formData.step1.city,
+    //   state: formData.step1.state,
+    //   countryCode: 'GB',
+    // };
+
     const billingDetails = {
-      givenName: formData.step1.name,
-      familyName: formData.step1.name,
-      email: formData.step1.email,
-      phone: formData.step1.phone,
-      addressLines: [formData.step1.street],
-      city: formData.step1.city,
-      state: formData.step1.state,
-      countryCode: 'GB',
+      givenName: readableData.senderAddress.senderName, // Extract first name
+      familyName: readableData.senderAddress.senderName, // Extract last name or fallback to full name
+      email: readableData.senderAddress.senderEmail,
+      phone: readableData.senderAddress.senderPhone,
+      addressLines: [readableData.senderAddress.senderStreet],
+      city: readableData.senderAddress.senderCity,
+      state: readableData.senderAddress.senderState,
+      postalCode: readableData.senderAddress.senderPostalCode,
+      countryCode: 'US', // Since the sender is in California, USA
     };
 
     const verificationDetails = {
