@@ -304,6 +304,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       if (response.ok) {
         console.log('Data successfully sent to webhook', response);
+
+        // Read response as text instead of JSON
+        const trackingCode = await response.text();
+        console.log('Tracking Code:', trackingCode);
+
+        // Redirect user to confirmation page
+        window.location.href = `order-confirmation?${trackingCode}`;
       } else {
         console.error('Failed to send data to webhook:', response.statusText);
       }
@@ -564,8 +571,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   // const confirmCheckbox = document.getElementById('confirm-checkbox');
   // const nextStepButton = document.getElementById('next-step-button');
 
-  // confirmCheckbox.addEventListener('change', function () {
-  //   nextStepButton.disabled = !this.checked;
-  //   cardButton.disabled = !this.checked;
-  // });
+  confirmCheckbox.addEventListener('change', function () {
+    // nextStepButton.disabled = !this.checked;
+    cardButton.disabled = !this.checked;
+  });
 });
