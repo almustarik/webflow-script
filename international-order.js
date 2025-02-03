@@ -254,15 +254,12 @@ document.addEventListener('DOMContentLoaded', async function () {
       if (response.ok) {
         console.log('Data successfully sent to webhook', response);
 
-        const textResponse = await response.text(); // Get response as text
-        console.log('Raw Response:', textResponse);
+        // Read response as text instead of JSON
+        const trackingCode = await response.text();
+        console.log('Tracking Code:', trackingCode);
 
-        try {
-          const newData = JSON.parse(textResponse); // Try parsing JSON
-          console.log('Response Data:', newData);
-        } catch (jsonError) {
-          console.error('Response is not valid JSON:', jsonError);
-        }
+        // Redirect user to confirmation page
+        window.location.href = `order-confirmation?${trackingCode}`;
       } else {
         console.error('Failed to send data to webhook:', response.statusText);
       }
