@@ -303,18 +303,27 @@ document.addEventListener('DOMContentLoaded', function () {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     captureLocalStepData(currentLocalStep);
+    console.log();
     const payload = {
-      zipcode_from: document.getElementById('fromZip').value,
-      zipcode_to: document.getElementById('toZip').value,
+      // zipcode_from: document.getElementById('fromZip').value,
+      zipcode_from: localFormData.step1.senderPostalCode,
+      // zipcode_to: document.getElementById('toZip').value,
+      zipcode_to: localFormData.step1.receiverPostalCode,
       // package_type: document.querySelector('.package-type.selected')?.dataset
       //   .type,
       package_type: '',
-      package_length: document.getElementById('length').value,
-      package_width: document.getElementById('width').value,
-      package_height: document.getElementById('height').value,
-      distance_unit: document.getElementById('dimensionUnit').value,
-      weight: document.getElementById('weight').value,
-      weight_unit: document.getElementById('weightUnit').value,
+      // package_length: document.getElementById('length').value,
+      package_length: localFormData.step3.length,
+      // package_width: document.getElementById('width').value,
+      package_width: localFormData.step3.width,
+      // package_height: document.getElementById('height').value,
+      package_height: localFormData.step3.height,
+      // distance_unit: document.getElementById('dimensionUnit').value,
+      distance_unit: localFormData.step3.dimensionUnit,
+      // weight: document.getElementById('weight').value,
+      weight: localFormData.step3.weight,
+      // weight_unit: document.getElementById('weightUnit').value,
+      weight_unit: localFormData.step3.weightUnit,
     };
 
     try {
