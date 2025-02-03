@@ -185,15 +185,28 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   async function verifyBuyer(payments, token) {
     const amountInput = '1.00';
+    // console.log({ readableData });
+    // const billingDetails = {
+    //   givenName: formData.step1.name,
+    //   familyName: formData.step1.name,
+    //   email: formData.step1.email,
+    //   phone: formData.step1.phone,
+    //   addressLines: [readableData.senderAddress.street],
+    //   city: readableData.senderAddress.city,
+    //   state: readableData.senderAddress.state,
+    //   countryCode: 'GB',
+    // };
+
     const billingDetails = {
-      givenName: formData.step1.name,
-      familyName: formData.step1.name,
-      email: formData.step1.email,
-      phone: formData.step1.phone,
+      givenName: readableData.senderAddress.name,
+      familyName: readableData.senderAddress.name,
+      email: readableData.senderAddress.email,
+      phone: readableData.senderAddress.Phone,
       addressLines: [readableData.senderAddress.street],
       city: readableData.senderAddress.city,
       state: readableData.senderAddress.state,
-      countryCode: 'GB',
+      postalCode: readableData.senderAddress.postalCode,
+      countryCode: 'US', // Assuming it's USA based on sender's location
     };
 
     const verificationDetails = {
