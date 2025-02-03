@@ -422,39 +422,49 @@ document.addEventListener('DOMContentLoaded', async function () {
     // `;
     const formDataHTML = `
       <h3>Sender Information</h3>
-      <p><strong>Name:</strong> ${readableData.senderAddress?.name || ''}</p>
-      <p><strong>Email:</strong> ${readableData.senderAddress?.email || ''}</p>
-      <p><strong>Phone:</strong> ${readableData.senderAddress?.Phone || ''}</p>
+      <p><strong>Name:</strong> ${
+        readableData.senderAddress?.senderName || ''
+      }</p>
+      <p><strong>Email:</strong> ${
+        readableData.senderAddress?.senderEmail || ''
+      }</p>
+      <p><strong>Phone:</strong> ${
+        readableData.senderAddress?.senderPhone || ''
+      }</p>
       <p><strong>Street:</strong> ${
-        readableData.senderAddress?.street || 'N/A'
+        readableData.senderAddress?.senderStreet || 'N/A'
       }</p>
       <p><strong>State:</strong> ${
-        readableData.senderAddress?.state || 'N/A'
+        readableData.senderAddress?.senderState || 'N/A'
       }</p>
-      <p><strong>City:</strong> ${readableData.senderAddress?.city || 'N/A'}</p>
+      <p><strong>City:</strong> ${
+        readableData.senderAddress?.senderCity || 'N/A'
+      }</p>
       <p><strong>Postal Code:</strong> ${
-        readableData.senderAddress?.postalCode || 'N/A'
+        readableData.senderAddress?.senderPostalCode || 'N/A'
       }</p>
       
       <h3>Receiver Information</h3>
-      <p><strong>Name:</strong> ${readableData.receiverAddress?.name || ''}</p>
+      <p><strong>Name:</strong> ${
+        readableData.receiverAddress?.receiverName || ''
+      }</p>
       <p><strong>Email:</strong> ${
-        readableData.receiverAddress?.email || ''
+        readableData.receiverAddress?.receiverEmail || ''
       }</p>
       <p><strong>Phone:</strong> ${
-        readableData.receiverAddress?.Phone || ''
+        readableData.receiverAddress?.receiverPhone || ''
       }</p>
       <p><strong>Street:</strong> ${
-        readableData.receiverAddress?.street || 'N/A'
+        readableData.receiverAddress?.receiverStreet || 'N/A'
       }</p>
       <p><strong>State:</strong> ${
-        readableData.receiverAddress?.state || 'N/A'
+        readableData.receiverAddress?.receiverState || 'N/A'
       }</p>
       <p><strong>City:</strong> ${
-        readableData.receiverAddress?.city || 'N/A'
+        readableData.receiverAddress?.receiverCity || 'N/A'
       }</p>
       <p><strong>Postal Code:</strong> ${
-        readableData.receiverAddress?.postalCode || 'N/A'
+        readableData.receiverAddress?.receiverPostalCode || 'N/A'
       }</p>
     `;
 
