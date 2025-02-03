@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 
     // If on the final step, display all collected data
-    if (step === 3) {
+    if (step === 1) {
       displayFinalData();
     }
   }
@@ -399,43 +399,70 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Form Data Display
     const formDataHTML = `
       <h3>Sender Information</h3>
-      <p><strong>Name:</strong> ${formData.step1.name || ''}</p>
-      <p><strong>Email:</strong> ${formData.step1.email || ''}</p>
-      <p><strong>Street:</strong> ${formData.step1.street || ''}</p>
-      <p><strong>State:</strong> ${formData.step1.state || ''}</p>
-      <p><strong>City:</strong> ${formData.step1.city || ''}</p>
+      <p><strong>Name:</strong> ${readableData.step1.senderName || ''}</p>
+      <p><strong>Email:</strong> ${readableData.step1.senderEmail || ''}</p>
+      <p><strong>Street:</strong> ${readableData.step1.senderStreet || ''}</p>
+      <p><strong>State:</strong> ${readableData.step1.senderState || ''}</p>
+      <p><strong>City:</strong> ${readableData.step1.senderCity || ''}</p>
       <p style="display: none"><strong>Postal Code:</strong> ${
-        formData.step1.postalCode || ''
+        readableData.step1.senderPostalCode || ''
       }</p>
       
       <h3>Receiver Information</h3>
-      <p><strong>Name:</strong> ${formData.step2.name || ''}</p>
-      <p><strong>Email:</strong> ${formData.step2.email || ''}</p>
-      <p><strong>Street:</strong> ${formData.step2.street || ''}</p>
-      <p><strong>State:</strong> ${formData.step2.state || ''}</p>
-      <p><strong>City:</strong> ${formData.step2.city || ''}</p>
+      <p><strong>Name:</strong> ${readableData.step2.receiverName || ''}</p>
+      <p><strong>Email:</strong> ${readableData.step2.receiverEmail || ''}</p>
+      <p><strong>Street:</strong> ${readableData.step2.receiverStreet || ''}</p>
+      <p><strong>State:</strong> ${readableData.step2.receiverState || ''}</p>
+      <p><strong>City:</strong> ${readableData.step2.receiverCity || ''}</p>
       <p style="display: none"><strong>Postal Code:</strong> ${
-        formData.step2.postalCode || ''
+        readableData.step2.receiverPostalCode || ''
       }</p>
     `;
 
     // Readable Data Display
-    const readableDataHTML = `
-      <h3>Shipping Details</h3>
-      <p><strong>Sender Zip Code:</strong> ${readableData.senderZipCode}</p>
-      <p><strong>Receiver Zip Code:</strong> ${readableData.receiverZipCode}</p>
-      <p><strong>Dimensions:</strong> ${readableData.dimensions}</p>
-      <p><strong>Weight:</strong> ${readableData.weight}</p>
-      <p><strong>Rate Amount:</strong> ${readableData.rate.amount} ${readableData.rate.currency}</p>
-      <p><strong>Retail Amount:</strong> ${readableData.rate.retailAmount} ${readableData.rate.currency}</p>
-      <p><strong>Service Level Name:</strong> ${readableData.rate.serviceLevelName}</p>
-      <p><strong>Delivery Days:</strong> ${readableData.rate.deliveryDaysMin} - ${readableData.rate.deliveryDaysMax}</p>
-      <p><strong>Provider:</strong> ${readableData.rate.provider}</p>
-      <p><img src="${readableData.rate.providerLogo}" alt="${readableData.rate.provider}" style="height: 40px;"></p>
+    // <p><strong>Sender Zip Code:</strong> ${readableData.senderZipCode}</p>
+    // <p><strong>Receiver Zip Code:</strong> ${readableData.receiverZipCode}</p>
+    // <p><strong>Dimensions:</strong> ${readableData.dimensions}</p>
+    // <p><strong>Retail Amount:</strong> ${readableData.rate.retailAmount} ${readableData.rate.currency}</p>
+    const rateDetailsHTML = `
+      <h3>Rate Details:</h3>
+      <p><strong>Amount:</strong> ${readableData.rate?.amount || 'N/A'} ${
+      readableData.rate?.currency || 'N/A'
+    }</p>
+      <p><strong>Retail Amount:</strong> ${
+        readableData.rate?.amountLocal || 'N/A'
+      } ${readableData.rate?.currencyLocal || 'N/A'}</p>
+      <p><strong>Attributes:</strong> ${
+        readableData.rate?.attributes?.join(', ') || 'N/A'
+      }</p>
+      <p><strong>Service Level:</strong> ${
+        readableData.rate?.servicelevel?.name || 'N/A'
+      }</p>
+      <p><strong>Delivery Days:</strong> ${
+        readableData.rate?.estimatedDays || 'N/A'
+      }</p>
+      <p><strong>Provider:</strong> ${readableData.rate?.provider || 'N/A'}</p>
+      <img src="${readableData.rate?.providerImage_75 || ''}" alt="${
+      readableData.rate?.provider || ''
+    }">
+      <p><strong>Duration Terms:</strong> ${
+        readableData.rate?.durationTerms || 'N/A'
+      }</p>
+      <p><strong>Carrier Account:</strong> ${
+        readableData.rate?.carrierAccount || 'N/A'
+      }</p>
+      <p><strong>Zone:</strong> ${readableData.rate?.zone || 'N/A'}</p>
+      <p><strong>Insurance Included:</strong> ${
+        readableData.rate?.includedInsurancePrice || 'N/A'
+      }</p>
+      <p><strong>Created On:</strong> ${
+        readableData.rate?.objectCreated || 'N/A'
+      }</p>
+      <p><strong>Owner:</strong> ${readableData.rate?.objectOwner || 'N/A'}</p>
     `;
 
     // Combine and display data
-    finalDataContainer.innerHTML = formDataHTML + readableDataHTML;
+    finalDataContainer.innerHTML = formDataHTML + rateDetailsHTML;
   }
 
   document.querySelectorAll('.next-step').forEach((button) => {

@@ -454,10 +454,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         readableData.rate?.objectCreated || 'N/A'
       }</p>
       <p><strong>Owner:</strong> ${readableData.rate?.objectOwner || 'N/A'}</p>
-      <p><strong>Test Mode:</strong> ${
-        readableData.rate?.test ? 'Yes' : 'No'
-      }</p>
     `;
+    // <p><strong>Test Mode:</strong> ${
+    //   readableData.rate?.test ? 'Yes' : 'No'
+    // }</p>
 
     // Combine and display data
     // finalDataContainer.innerHTML = formDataHTML + readableDataHTML;
