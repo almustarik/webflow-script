@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
   internationalForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     captureStepData(currentStep);
-
+    toastr.info('Submitting data...', 'Processing');
     try {
       const response = await fetch(API_URLS.webhook, {
         method: 'POST',
@@ -155,6 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Handle the response data here
       displayResultsInternational(data);
+      toastr.success('Successfully received response!', 'Success');
     } catch (error) {
       console.error('Error sending data to the webhook:', error);
     }
@@ -325,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // weight_unit: document.getElementById('weightUnit').value,
       weight_unit: localFormData.step3.weightUnit,
     };
-
+    toastr.info('Submitting data...', 'Processing'); // Show toast when submitting
     try {
       // const response = await fetch(API_URLS.rateEstimate, {
       //   method: 'POST',
@@ -371,6 +372,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // const data = await response.json();
       displayResults(data);
+      toastr.success('Successfully received response!', 'Success');
     } catch (error) {
       toastr.error(`Error fetching rates: ${error.message}`);
       console.error('Error:', error);
