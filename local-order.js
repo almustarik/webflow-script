@@ -399,23 +399,23 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Form Data Display
     const formDataHTML = `
       <h3>Sender Information</h3>
-      <p><strong>Name:</strong> ${readableData.step1.senderName || ''}</p>
-      <p><strong>Email:</strong> ${readableData.step1.senderEmail || ''}</p>
-      <p><strong>Street:</strong> ${readableData.step1.senderStreet || ''}</p>
-      <p><strong>State:</strong> ${readableData.step1.senderState || ''}</p>
-      <p><strong>City:</strong> ${readableData.step1.senderCity || ''}</p>
+      <p><strong>Name:</strong> ${readableData.step1?.senderName || ''}</p>
+      <p><strong>Email:</strong> ${readableData.step1?.senderEmail || ''}</p>
+      <p><strong>Street:</strong> ${readableData.step1?.senderStreet || ''}</p>
+      <p><strong>State:</strong> ${readableData.step1?.senderState || ''}</p>
+      <p><strong>City:</strong> ${readableData.step1?.senderCity || ''}</p>
       <p style="display: none"><strong>Postal Code:</strong> ${
-        readableData.step1.senderPostalCode || ''
+        readableData.step1?.senderPostalCode || ''
       }</p>
       
       <h3>Receiver Information</h3>
-      <p><strong>Name:</strong> ${readableData.step2.receiverName || ''}</p>
-      <p><strong>Email:</strong> ${readableData.step2.receiverEmail || ''}</p>
-      <p><strong>Street:</strong> ${readableData.step2.receiverStreet || ''}</p>
-      <p><strong>State:</strong> ${readableData.step2.receiverState || ''}</p>
-      <p><strong>City:</strong> ${readableData.step2.receiverCity || ''}</p>
+      <p><strong>Name:</strong> ${readableData.step2?.receiverName || ''}</p>
+      <p><strong>Email:</strong> ${readableData.step2?.receiverEmail || ''}</p>
+      <p><strong>Street:</strong> ${readableData.step2?.receiverStreet || ''}</p>
+      <p><strong>State:</strong> ${readableData.step2?.receiverState || ''}</p>
+      <p><strong>City:</strong> ${readableData.step2?.receiverCity || ''}</p>
       <p style="display: none"><strong>Postal Code:</strong> ${
-        readableData.step2.receiverPostalCode || ''
+        readableData.step2?.receiverPostalCode || ''
       }</p>
     `;
 
