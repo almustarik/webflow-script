@@ -395,27 +395,66 @@ document.addEventListener('DOMContentLoaded', async function () {
   // Display final step data
   function displayFinalData() {
     const finalDataContainer = document.querySelector('#final-step-data');
-
+    console.log({ readableData });
     // Form Data Display
+    // const formDataHTML = `
+    //   <h3>Sender Information</h3>
+    //   <p><strong>Name:</strong> ${readableData.step1?.senderName || ''}</p>
+    //   <p><strong>Email:</strong> ${readableData.step1?.senderEmail || ''}</p>
+    //   <p><strong>Street:</strong> ${readableData.step1?.senderStreet || ''}</p>
+    //   <p><strong>State:</strong> ${readableData.step1?.senderState || ''}</p>
+    //   <p><strong>City:</strong> ${readableData.step1?.senderCity || ''}</p>
+    //   <p style="display: none"><strong>Postal Code:</strong> ${
+    //     readableData.step1?.senderPostalCode || ''
+    //   }</p>
+
+    //   <h3>Receiver Information</h3>
+    //   <p><strong>Name:</strong> ${readableData.step2?.receiverName || ''}</p>
+    //   <p><strong>Email:</strong> ${readableData.step2?.receiverEmail || ''}</p>
+    //   <p><strong>Street:</strong> ${
+    //     readableData.step2?.receiverStreet || ''
+    //   }</p>
+    //   <p><strong>State:</strong> ${readableData.step2?.receiverState || ''}</p>
+    //   <p><strong>City:</strong> ${readableData.step2?.receiverCity || ''}</p>
+    //   <p style="display: none"><strong>Postal Code:</strong> ${
+    //     readableData.step2?.receiverPostalCode || ''
+    //   }</p>
+    // `;
     const formDataHTML = `
       <h3>Sender Information</h3>
-      <p><strong>Name:</strong> ${readableData.step1?.senderName || ''}</p>
-      <p><strong>Email:</strong> ${readableData.step1?.senderEmail || ''}</p>
-      <p><strong>Street:</strong> ${readableData.step1?.senderStreet || ''}</p>
-      <p><strong>State:</strong> ${readableData.step1?.senderState || ''}</p>
-      <p><strong>City:</strong> ${readableData.step1?.senderCity || ''}</p>
-      <p style="display: none"><strong>Postal Code:</strong> ${
-        readableData.step1?.senderPostalCode || ''
+      <p><strong>Name:</strong> ${readableData.senderAddress?.name || ''}</p>
+      <p><strong>Email:</strong> ${readableData.senderAddress?.email || ''}</p>
+      <p><strong>Phone:</strong> ${readableData.senderAddress?.Phone || ''}</p>
+      <p><strong>Street:</strong> ${
+        readableData.senderAddress?.street || 'N/A'
+      }</p>
+      <p><strong>State:</strong> ${
+        readableData.senderAddress?.state || 'N/A'
+      }</p>
+      <p><strong>City:</strong> ${readableData.senderAddress?.city || 'N/A'}</p>
+      <p><strong>Postal Code:</strong> ${
+        readableData.senderAddress?.postalCode || 'N/A'
       }</p>
       
       <h3>Receiver Information</h3>
-      <p><strong>Name:</strong> ${readableData.step2?.receiverName || ''}</p>
-      <p><strong>Email:</strong> ${readableData.step2?.receiverEmail || ''}</p>
-      <p><strong>Street:</strong> ${readableData.step2?.receiverStreet || ''}</p>
-      <p><strong>State:</strong> ${readableData.step2?.receiverState || ''}</p>
-      <p><strong>City:</strong> ${readableData.step2?.receiverCity || ''}</p>
-      <p style="display: none"><strong>Postal Code:</strong> ${
-        readableData.step2?.receiverPostalCode || ''
+      <p><strong>Name:</strong> ${readableData.receiverAddress?.name || ''}</p>
+      <p><strong>Email:</strong> ${
+        readableData.receiverAddress?.email || ''
+      }</p>
+      <p><strong>Phone:</strong> ${
+        readableData.receiverAddress?.Phone || ''
+      }</p>
+      <p><strong>Street:</strong> ${
+        readableData.receiverAddress?.street || 'N/A'
+      }</p>
+      <p><strong>State:</strong> ${
+        readableData.receiverAddress?.state || 'N/A'
+      }</p>
+      <p><strong>City:</strong> ${
+        readableData.receiverAddress?.city || 'N/A'
+      }</p>
+      <p><strong>Postal Code:</strong> ${
+        readableData.receiverAddress?.postalCode || 'N/A'
       }</p>
     `;
 
