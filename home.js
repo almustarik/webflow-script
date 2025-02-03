@@ -327,15 +327,15 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     try {
-      const response = await fetch(API_URLS.rateEstimate, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      });
+      // const response = await fetch(API_URLS.rateEstimate, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(payload),
+      // });
 
-      const hookResponse = await fetch(API_URLS.localHook, {
+      const response = await fetch(API_URLS.localHook, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -343,28 +343,28 @@ document.addEventListener('DOMContentLoaded', function () {
         body: JSON.stringify(localFormData),
       });
 
-      if (!hookResponse.ok) {
+      if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      const arrayBuffer = await hookResponse.arrayBuffer();
+      const arrayBuffer = await response.arrayBuffer();
 
       // Decode the ArrayBuffer to a string
       const decoder = new TextDecoder('utf-8');
       const decodedString = decoder.decode(arrayBuffer);
 
       // Parse the JSON string
-      const newData = JSON.parse(decodedString);
+      const data = JSON.parse(decodedString);
 
-      console.log('Response Data:', newData);
+      console.log('Response Data:', data);
       // Handle the response data here
       // displayResultsInternational(data);
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! Status: ${response.status}`);
+      // }
 
-      const data = await response.json();
+      // const data = await response.json();
       displayResults(data);
     } catch (error) {
       toastr.error(`Error fetching rates: ${error.message}`);
@@ -373,52 +373,111 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   function displayResults(data) {
+    // resultSection.innerHTML = `
+    //   <div class="local-result-header">
+    //     <h1 class="card-title" style="margin-bottom: 0 !important">Best Deals</h1>
+    //     <span role="img" aria-label="fire">🔥</span>
+    //   </div>
+    // `;
+
+    // if (data && data.rates?.length) {
+    //   const createCard = (rate, category) => `
+    //     <div class="category">${category}</div>
+    //     <div class="shipping-option">
+    //       <img src="${rate.provider_logo}" alt="${
+    //     rate.provider
+    //   }" class="logo" />
+    //       <div class="details">
+    //         <div class="company">${rate.provider} ${
+    //     rate.service_level_name
+    //   }</div>
+    //         <div class="time">
+    //           ${
+    //             rate.delivery_days_min === rate.delivery_days_max
+    //               ? `${rate.delivery_days_min} days`
+    //               : `${rate.delivery_days_min}-${rate.delivery_days_max} days`
+    //           }
+    //         </div>
+    //       </div>
+    //       <div class="price-section">
+    //         <div class="price">
+    //           <div class="original-price">$${rate.retail_amount || 'N/A'}</div>
+    //           <div class="current-price">$${rate.amount}</div>
+    //         </div>
+    //         <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
+    //           rate,
+    //         )}, "local")'>Buy</button>
+    //       </div>
+    //     </div>
+    //   `;
+
+    //   ['FASTEST', 'CHEAPEST', 'BESTVALUE'].forEach((category) => {
+    //     const rate = data.rates.find((r) => r.attributes.includes(category));
+    //     if (rate) {
+    //       resultSection.innerHTML += createCard(rate, category);
+    //     }
+    //   });
+
+    //   const otherRates = data.rates.filter(
+    //     (rate) =>
+    //       !['FASTEST', 'CHEAPEST', 'BESTVALUE'].some((attr) =>
+    //         rate.attributes.includes(attr),
+    //       ),
+    //   );
+
+    //   if (otherRates.length) {
+    //     resultSection.innerHTML += '<div class="category">Other Options</div>';
+    //     otherRates.forEach((rate) => {
+    //       resultSection.innerHTML += createCard(rate, '');
+    //     });
+    //   }
+    // } else {
+    //   resultSection.innerHTML += '<p>No rates available.</p>';
+    // }
+
+    // savingsSection.classList.add('hidden');
+    // resultSection.classList.remove('hidden');
+    console.log({ internationalData: data });
     resultSection.innerHTML = `
-      <div class="local-result-header">
-        <h1 class="card-title" style="margin-bottom: 0 !important">Best Deals</h1>
-        <span role="img" aria-label="fire">🔥</span>
+    <div class="local-result-header">
+      <h1 class="card-title" style="margin-bottom: 0 !important">Best Deals</h1>
+      <span role="img" aria-label="fire">🔥</span>
+    </div>
+  `;
+
+    if (data && data.length > 0) {
+      const createCard = (rate, category) => `
+      <div class="category">${category}</div>
+      <div class="shipping-option">
+        <img src="${rate.provider_image_75}" alt="${
+        rate.provider
+      }" class="logo" />
+        <div class="details">
+          <div class="company">${rate.provider} ${rate.servicelevel.name}</div>
+          <div class="time">
+            ${rate.estimated_days} ${rate.estimated_days === 1 ? 'day' : 'days'}
+          </div>
+        </div>
+        <div class="price-section">
+          <div class="price">
+            <div class="original-price">$${rate.amount}</div>
+            <div class="current-price">$${rate.amount}</div>
+          </div>
+          <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
+            rate,
+          )}, "local")'>Buy</button>
+        </div>
       </div>
     `;
 
-    if (data && data.rates?.length) {
-      const createCard = (rate, category) => `
-        <div class="category">${category}</div>
-        <div class="shipping-option">
-          <img src="${rate.provider_logo}" alt="${
-        rate.provider
-      }" class="logo" />
-          <div class="details">
-            <div class="company">${rate.provider} ${
-        rate.service_level_name
-      }</div>
-            <div class="time">
-              ${
-                rate.delivery_days_min === rate.delivery_days_max
-                  ? `${rate.delivery_days_min} days`
-                  : `${rate.delivery_days_min}-${rate.delivery_days_max} days`
-              }
-            </div>
-          </div>
-          <div class="price-section">
-            <div class="price">
-              <div class="original-price">$${rate.retail_amount || 'N/A'}</div>
-              <div class="current-price">$${rate.amount}</div>
-            </div>
-            <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
-              rate,
-            )}, "local")'>Buy</button>
-          </div>
-        </div>
-      `;
-
       ['FASTEST', 'CHEAPEST', 'BESTVALUE'].forEach((category) => {
-        const rate = data.rates.find((r) => r.attributes.includes(category));
+        const rate = data.find((r) => r.attributes.includes(category));
         if (rate) {
           resultSection.innerHTML += createCard(rate, category);
         }
       });
 
-      const otherRates = data.rates.filter(
+      const otherRates = data.filter(
         (rate) =>
           !['FASTEST', 'CHEAPEST', 'BESTVALUE'].some((attr) =>
             rate.attributes.includes(attr),
@@ -453,23 +512,26 @@ document.addEventListener('DOMContentLoaded', function () {
       queryParams.append('step3', JSON.stringify(formData.step3));
     } else {
       // For local, add only the shipping details
-      const fromZip = document.getElementById('fromZip').value;
-      const toZip = document.getElementById('toZip').value;
-      const length = document.getElementById('length').value;
-      const width = document.getElementById('width').value;
-      const height = document.getElementById('height').value;
-      const dimensionUnit = document.getElementById('dimensionUnit').value;
-      const weight = document.getElementById('weight').value;
-      const weightUnit = document.getElementById('weightUnit').value;
+      // const fromZip = document.getElementById('fromZip').value;
+      // const toZip = document.getElementById('toZip').value;
+      // const length = document.getElementById('length').value;
+      // const width = document.getElementById('width').value;
+      // const height = document.getElementById('height').value;
+      // const dimensionUnit = document.getElementById('dimensionUnit').value;
+      // const weight = document.getElementById('weight').value;
+      // const weightUnit = document.getElementById('weightUnit').value;
 
-      queryParams.append('fromZip', fromZip);
-      queryParams.append('toZip', toZip);
-      queryParams.append('length', length);
-      queryParams.append('width', width);
-      queryParams.append('height', height);
-      queryParams.append('dimensionUnit', dimensionUnit);
-      queryParams.append('weight', weight);
-      queryParams.append('weightUnit', weightUnit);
+      // queryParams.append('fromZip', fromZip);
+      // queryParams.append('toZip', toZip);
+      // queryParams.append('length', length);
+      // queryParams.append('width', width);
+      // queryParams.append('height', height);
+      // queryParams.append('dimensionUnit', dimensionUnit);
+      // queryParams.append('weight', weight);
+      // queryParams.append('weightUnit', weightUnit);
+      queryParams.append('step1', JSON.stringify(localFormData.step1));
+      queryParams.append('step2', JSON.stringify(localFormData.step2));
+      queryParams.append('step3', JSON.stringify(localFormData.step3));
     }
 
     // Determine the correct URL based on type
