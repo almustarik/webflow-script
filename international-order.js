@@ -314,7 +314,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
 
     // If on the final step, display all collected data
-    if (step === 3) {
+    if (step === 1) {
       displayFinalData();
     }
   }
