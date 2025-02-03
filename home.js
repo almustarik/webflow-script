@@ -334,13 +334,18 @@ document.addEventListener('DOMContentLoaded', function () {
       //   },
       //   body: JSON.stringify(payload),
       // });
+      const payload = {
+        localFormData,
+        package_type: document.querySelector('.package-type.selected')?.dataset
+          .type,
+      };
 
       const response = await fetch(API_URLS.localHook, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(localFormData),
+        body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
