@@ -124,30 +124,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // internationalForm.addEventListener('submit', (e) => {
-  //   e.preventDefault();
-  //   captureStepData(currentStep);
-
-  //   fetch(API_URLS.webhook, {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(formData),
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error(`HTTP error! Status: ${response.status}`);
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((data) => {
-  //       console.log('Response Data:', data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error sending data to the webhook:', error);
-  //     });
-  // });
   internationalForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     captureStepData(currentStep);
@@ -165,9 +141,6 @@ document.addEventListener('DOMContentLoaded', function () {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      // const data = await response.json();
-      // console.log('Response Data:', data);
-      // Get the response as an ArrayBuffer
       const arrayBuffer = await response.arrayBuffer();
 
       // Decode the ArrayBuffer to a string
@@ -185,80 +158,6 @@ document.addEventListener('DOMContentLoaded', function () {
       console.error('Error sending data to the webhook:', error);
     }
   });
-
-  // function displayResultsInternational(data) {
-  //   console.log({ internationalData: data });
-  //   resultSection.innerHTML =
-  //     '<h2 class="card-title">International Shipping Rates</h2>';
-
-  //   // Check if data exists and has the "data" key with rates
-  //   if (data && data && data.length > 0) {
-  //     data.forEach((rate) => {
-  //       const card = document.createElement('div');
-  //       card.className = 'result-card';
-  //       card.innerHTML = `
-  //       <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px;">
-  //         <!-- Provider Logo and Name -->
-  //         <div style="display: flex; align-items: center; gap: 12px;">
-  //           <img
-  //             src="${rate.provider_image_75}"
-  //             alt="${rate.provider}"
-  //             style="
-  //               height: 56px;
-  //               width: 56px;
-  //               object-fit: contain;
-  //               border-radius: 8px;
-  //             "
-  //           />
-  //           <div>
-  //             <p style="font-weight: 600; margin: 0;">${rate.provider}</p>
-  //             <p style="font-size: 0.875rem; color: #666; margin: 0;">${
-  //               rate.servicelevel.name
-  //             }</p>
-  //           </div>
-  //         </div>
-
-  //         <!-- Delivery Details -->
-  //         <div style="text-align: right;">
-  //           <p style="font-size: 0.875rem; color: #666; margin: 0;">
-  //             ${rate.estimated_days} ${
-  //         rate.estimated_days === 1 ? 'day' : 'days'
-  //       }
-  //           </p>
-  //           <p style="font-size: 0.875rem; color: #666; margin: 0;">
-  //             ${
-  //               rate.arrives_by
-  //                 ? `Arrives by ${rate.arrives_by}`
-  //                 : 'No specific arrival time'
-  //             }
-  //           </p>
-  //         </div>
-
-  //         <!-- Price -->
-  //         <div style="text-align: right;">
-  //           <p style="font-weight: 600; margin: 0;">$${rate.amount}</p>
-  //           <p style="font-size: 0.875rem; color: #666; margin: 0;">${
-  //             rate.currency
-  //           }</p>
-  //         </div>
-
-  //         <!-- Buy Button -->
-  //         <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
-  //           rate,
-  //         )})'>
-  //           Buy
-  //         </button>
-  //       </div>
-  //     `;
-  //       resultSection.appendChild(card);
-  //     });
-  //   } else {
-  //     resultSection.innerHTML += '<p>No rates available.</p>';
-  //   }
-
-  //   savingsSection.classList.add('hidden');
-  //   resultSection.classList.remove('hidden');
-  // }
 
   function displayResultsInternational(data) {
     console.log({ internationalData: data });
@@ -345,9 +244,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   tabs.forEach((tab) => {
     tab.addEventListener('click', () => {
+      // Remove 'active' class from all tabs
       tabs.forEach((t) => t.classList.remove('active'));
+
+      // Add 'active' class to the clicked tab
       tab.classList.add('active');
 
+      // Toggle visibility of containers based on the clicked tab
       if (tab.dataset.tab === 'local') {
         localContainer.classList.remove('hidden');
         internationalContainer.classList.add('hidden');
@@ -398,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-
+    captureLocalStepData(currentLocalStep);
     const payload = {
       zipcode_from: document.getElementById('fromZip').value,
       zipcode_to: document.getElementById('toZip').value,
@@ -501,36 +404,6 @@ document.addEventListener('DOMContentLoaded', function () {
     resultSection.classList.remove('hidden');
   }
 
-  // window.navigateToOrder = function (rate) {
-  //   const fromZip = document.getElementById('fromZip').value;
-  //   const toZip = document.getElementById('toZip').value;
-  //   const length = document.getElementById('length').value;
-  //   const width = document.getElementById('width').value;
-  //   const height = document.getElementById('height').value;
-  //   const dimensionUnit = document.getElementById('dimensionUnit').value;
-  //   const weight = document.getElementById('weight').value;
-  //   const weightUnit = document.getElementById('weightUnit').value;
-  //   const serializedRate = encodeURIComponent(JSON.stringify(rate));
-
-  //   const queryParams = new URLSearchParams({
-  //     // ...formData.step1,
-  //     // ...formData.step2,
-  //     // ...formData.step3,
-  //     fromZip,
-  //     toZip,
-  //     length,
-  //     width,
-  //     height,
-  //     dimensionUnit,
-  //     weight,
-  //     weightUnit,
-  //     // rate: JSON.stringify(rate),
-  //     rate: serializedRate,
-  //   });
-
-  //   window.location.href = `/original/order.html?${queryParams.toString()}`;
-  // };
-
   window.navigateToOrder = function (rate, type) {
     const queryParams = new URLSearchParams();
     const serializedRate = encodeURIComponent(JSON.stringify(rate));
@@ -574,4 +447,74 @@ document.addEventListener('DOMContentLoaded', function () {
     // Redirect to the appropriate URL
     window.location.href = `${url}?${queryParams.toString()}`;
   };
+
+  const localSteps = document.querySelectorAll('.local-step');
+  const localStepContents = document.querySelectorAll('.local-step-content');
+  let currentLocalStep = 1;
+  const localFormData = {
+    step1: {},
+    step2: {},
+    step3: {},
+  };
+
+  function validateLocalStep(step) {
+    const currentFields = localStepContents[step - 1].querySelectorAll(
+      'input[required], select[required]',
+    );
+    for (const field of currentFields) {
+      if (!field.value.trim()) {
+        toastr.warning(
+          `Please fill in the "${field.dataset.label || 'required'}" field.`,
+        );
+        field.focus();
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function captureLocalStepData(step) {
+    const currentFormFields =
+      localStepContents[step - 1].querySelectorAll('input, select');
+    currentFormFields.forEach((field) => {
+      const fieldName = field.name;
+      const fieldValue = field.value;
+      localFormData[`step${step}`][fieldName] = fieldValue;
+    });
+
+    if (step === localSteps.length) {
+      console.log('Local Steps Data:', localFormData);
+    }
+  }
+
+  function updateLocalStepper(step) {
+    localSteps.forEach((s, index) => {
+      s.classList.toggle('active', index + 1 === step);
+    });
+    localStepContents.forEach((content, index) => {
+      content.classList.toggle('active', index + 1 === step);
+    });
+  }
+
+  document.querySelectorAll('.local-next-step').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (!validateLocalStep(currentLocalStep)) return;
+      if (currentLocalStep < localSteps.length) {
+        captureLocalStepData(currentLocalStep);
+        currentLocalStep++;
+        updateLocalStepper(currentLocalStep);
+      }
+    });
+  });
+
+  document.querySelectorAll('.local-prev-step').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (currentLocalStep > 1) {
+        currentLocalStep--;
+        updateLocalStepper(currentLocalStep);
+      }
+    });
+  });
+
+  updateLocalStepper(currentLocalStep);
 });
