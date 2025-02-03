@@ -6,41 +6,104 @@ function getQueryParams() {
   return Object.fromEntries(params.entries());
 }
 
+// function parseReadableData(queryParams) {
+//   const readableData = { ...queryParams }; // Clone the input object
+
+//   // Helper function to convert a string to camelCase
+//   const toCamelCase = (str) =>
+//     str.replace(/([-_][a-z])/gi, (match) =>
+//       match.toUpperCase().replace(/[-_]/g, ''),
+//     );
+
+//   // Decode and parse the `rate` field
+//   if (readableData.rate) {
+//     try {
+//       readableData.rate = JSON.parse(decodeURIComponent(readableData.rate));
+//     } catch (e) {
+//       console.error("Error decoding and parsing 'rate' parameter:", e);
+//     }
+//   }
+
+//   // Convert keys to camelCase and format the data
+//   const formattedData = {
+//     senderZipCode: readableData.fromZip,
+//     receiverZipCode: readableData.toZip,
+//     dimensions: `${readableData.length} x ${readableData.width} x ${readableData.height} (${readableData.dimensionUnit})`,
+//     weight: `${readableData.weight} ${readableData.weightUnit}`,
+//     rate: readableData.rate
+//       ? Object.fromEntries(
+//           Object.entries(readableData.rate).map(([key, value]) => [
+//             toCamelCase(key),
+//             value,
+//           ]),
+//         )
+//       : 'N/A',
+//   };
+
+//   return formattedData;
+// }
+
 function parseReadableData(queryParams) {
   const readableData = { ...queryParams }; // Clone the input object
+  console.log({ readableData });
 
-  // Helper function to convert a string to camelCase
-  const toCamelCase = (str) =>
-    str.replace(/([-_][a-z])/gi, (match) =>
-      match.toUpperCase().replace(/[-_]/g, ''),
-    );
-
-  // Decode and parse the `rate` field
-  if (readableData.rate) {
-    try {
-      readableData.rate = JSON.parse(decodeURIComponent(readableData.rate));
-    } catch (e) {
-      console.error("Error decoding and parsing 'rate' parameter:", e);
+  // Decode and parse JSON fields if present
+  const parseJSONField = (fieldName) => {
+    if (readableData[fieldName]) {
+      try {
+        readableData[fieldName] = JSON.parse(
+          decodeURIComponent(readableData[fieldName]),
+        );
+      } catch (e) {
+        console.error(
+          `Error decoding and parsing '${fieldName}' parameter:`,
+          e,
+        );
+      }
     }
-  }
-
-  // Convert keys to camelCase and format the data
-  const formattedData = {
-    senderZipCode: readableData.fromZip,
-    receiverZipCode: readableData.toZip,
-    dimensions: `${readableData.length} x ${readableData.width} x ${readableData.height} (${readableData.dimensionUnit})`,
-    weight: `${readableData.weight} ${readableData.weightUnit}`,
-    rate: readableData.rate
-      ? Object.fromEntries(
-          Object.entries(readableData.rate).map(([key, value]) => [
-            toCamelCase(key),
-            value,
-          ]),
-        )
-      : 'N/A',
   };
 
-  return formattedData;
+  // Decode and parse specific fields
+  ['rate', 'step1', 'step2', 'step3'].forEach(parseJSONField);
+
+  // Convert rate keys to camelCase and format the data
+  if (readableData.rate) {
+    const toCamelCase = (str) =>
+      str.replace(/([-_][a-z])/gi, (match) =>
+        match.toUpperCase().replace(/[-_]/g, ''),
+      );
+
+    readableData.rate = Object.fromEntries(
+      Object.entries(readableData.rate).map(([key, value]) => [
+        toCamelCase(key),
+        value,
+      ]),
+    );
+  }
+
+  // Extract and format dimensions and weight
+  const dimensions = readableData.step3
+    ? `${readableData.step3.length || 'N/A'} x ${
+        readableData.step3.width || 'N/A'
+      } x ${readableData.step3.height || 'N/A'} (${
+        readableData.step3.dimensionUnit || 'N/A'
+      })`
+    : 'N/A';
+
+  const weight = readableData.step3
+    ? `${readableData.step3.weight || 'N/A'} ${
+        readableData.step3.weightUnit || 'N/A'
+      }`
+    : 'N/A';
+
+  return {
+    senderAddress: readableData.step1 || {},
+    receiverAddress: readableData.step2 || {},
+    dimensions,
+    weight,
+    rate: readableData.rate || {},
+    productDescription: readableData.step3 || {},
+  };
 }
 
 function extractAmountFromRate(rateParam) {
