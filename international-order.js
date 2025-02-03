@@ -253,6 +253,16 @@ document.addEventListener('DOMContentLoaded', async function () {
 
       if (response.ok) {
         console.log('Data successfully sent to webhook', response);
+        const arrayBuffer = await response.arrayBuffer();
+
+        // Decode the ArrayBuffer to a string
+        const decoder = new TextDecoder('utf-8');
+        const decodedString = decoder.decode(arrayBuffer);
+
+        // Parse the JSON string
+        const newData = JSON.parse(decodedString);
+
+        console.log('Response Data:', newData);
       } else {
         console.error('Failed to send data to webhook:', response.statusText);
       }
