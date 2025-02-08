@@ -371,7 +371,22 @@ document.addEventListener('DOMContentLoaded', function () {
       // }
 
       // const data = await response.json();
-      displayResults(data);
+
+      // Add 10% markup to the amount and amount_local fields
+      const updatedData = data.map((item) => {
+        const markup = 0.1; // 10% markup
+        item.amount = (parseFloat(item.amount) * (1 + markup)).toFixed(2);
+        item.amount_local = (
+          parseFloat(item.amount_local) *
+          (1 + markup)
+        ).toFixed(2);
+        return item;
+      });
+
+      console.log('Updated Response Data:', updatedData);
+
+      // displayResults(data);
+      displayResults(updatedData);
       toastr.success('Successfully received response!', 'Success');
     } catch (error) {
       toastr.error(`Error fetching rates: ${error.message}`);
