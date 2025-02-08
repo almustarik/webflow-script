@@ -153,8 +153,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
       console.log('Response Data:', data);
 
+      const updatedData = data.map((item) => {
+        const originalAmount = parseFloat(item.amount);
+        const originalAmountLocal = parseFloat(item.amount_local);
+
+        // Calculate 10% of the original amount
+        const tenPercent = originalAmount * 0.1;
+        const tenPercentLocal = originalAmountLocal * 0.1;
+
+        // Create a new object with updated values
+        return {
+          ...item,
+          amount: (originalAmount + tenPercent).toFixed(2),
+          amount_local: (originalAmountLocal + tenPercentLocal).toFixed(2),
+        };
+      });
+
+      console.log('Updated Response Data:', updatedData); // Log updated data
       // Handle the response data here
-      displayResultsInternational(data);
+      displayResultsInternational(updatedData);
       toastr.success('Successfully received response!', 'Success');
     } catch (error) {
       console.error('Error sending data to the webhook:', error);
