@@ -82,27 +82,27 @@ function parseReadableData(queryParams) {
   }
 
   // Extract and format dimensions and weight
-  const dimensions = readableData.step3
-    ? `${readableData.step3.length || 'N/A'} x ${
-        readableData.step3.width || 'N/A'
-      } x ${readableData.step3.height || 'N/A'} (${
-        readableData.step3.dimensionUnit || 'N/A'
+  const dimensions = readableData.step1
+    ? `${readableData.step1.length || 'N/A'} x ${
+        readableData.step1.width || 'N/A'
+      } x ${readableData.step1.height || 'N/A'} (${
+        readableData.step1.dimensionUnit || 'N/A'
       })`
     : 'N/A';
 
-  const weight = readableData.step3
-    ? `${readableData.step3.weight || 'N/A'} ${
-        readableData.step3.weightUnit || 'N/A'
+  const weight = readableData.step1
+    ? `${readableData.step1.weight || 'N/A'} ${
+        readableData.step1.weightUnit || 'N/A'
       }`
     : 'N/A';
 
   return {
-    senderAddress: readableData.step1 || {},
-    receiverAddress: readableData.step2 || {},
+    senderAddress: readableData.step2 || {},
+    receiverAddress: readableData.step3 || {},
     dimensions,
     weight,
     rate: readableData.rate || {},
-    productDescription: readableData.step3 || {},
+    productDescription: readableData.step1 || {},
   };
 }
 
