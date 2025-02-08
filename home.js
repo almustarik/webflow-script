@@ -301,40 +301,134 @@ document.addEventListener('DOMContentLoaded', function () {
     savingsList.appendChild(savingsItem);
   });
 
+  // form.addEventListener('submit', async (e) => {
+  //   e.preventDefault();
+  //   captureLocalStepData(currentLocalStep);
+  //   console.log();
+  //   const payload = {
+  //     // zipcode_from: document.getElementById('fromZip').value,
+  //     zipcode_from: localFormData.step1.senderPostalCode,
+  //     // zipcode_to: document.getElementById('toZip').value,
+  //     zipcode_to: localFormData.step1.receiverPostalCode,
+  //     // package_type: document.querySelector('.package-type.selected')?.dataset
+  //     //   .type,
+  //     package_type: '',
+  //     // package_length: document.getElementById('length').value,
+  //     package_length: localFormData.step3.length,
+  //     // package_width: document.getElementById('width').value,
+  //     package_width: localFormData.step3.width,
+  //     // package_height: document.getElementById('height').value,
+  //     package_height: localFormData.step3.height,
+  //     // distance_unit: document.getElementById('dimensionUnit').value,
+  //     distance_unit: localFormData.step3.dimensionUnit,
+  //     // weight: document.getElementById('weight').value,
+  //     weight: localFormData.step3.weight,
+  //     // weight_unit: document.getElementById('weightUnit').value,
+  //     weight_unit: localFormData.step3.weightUnit,
+  //   };
+  //   toastr.info('Submitting data...', 'Processing'); // Show toast when submitting
+  //   try {
+  //     // const response = await fetch(API_URLS.rateEstimate, {
+  //     //   method: 'POST',
+  //     //   headers: {
+  //     //     'Content-Type': 'application/json',
+  //     //   },
+  //     //   body: JSON.stringify(payload),
+  //     // });
+  //     const payload = {
+  //       localFormData,
+  //       package_type: document.querySelector('.package-type.selected')?.dataset
+  //         .type,
+  //     };
+
+  //     const response = await fetch(API_URLS.localHook, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(payload),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+
+  //     const arrayBuffer = await response.arrayBuffer();
+
+  //     // Decode the ArrayBuffer to a string
+  //     const decoder = new TextDecoder('utf-8');
+  //     const decodedString = decoder.decode(arrayBuffer);
+
+  //     // Parse the JSON string
+  //     const data = JSON.parse(decodedString);
+
+  //     console.log('Response Data:', data);
+  //     // Handle the response data here
+  //     // displayResultsInternational(data);
+
+  //     // if (!response.ok) {
+  //     //   throw new Error(`HTTP error! Status: ${response.status}`);
+  //     // }
+
+  //     // const data = await response.json();
+
+  //     // Add 10% markup to the amount and amount_local fields
+  //     // const updatedData = data.map((item) => {
+  //     //   const markup = 0.8; // 10% markup
+  //     //   item.amount = (parseFloat(item.amount) * (1 + markup)).toFixed(2);
+  //     //   item.amount_local = (
+  //     //     parseFloat(item.amount_local) *
+  //     //     (1 + markup)
+  //     //   ).toFixed(2);
+  //     //   return item;
+  //     // });
+
+  //     // Add 10% of the original amount to the amount and amount_local fields
+  //     const updatedData = data.map((item) => {
+  //       const originalAmount = parseFloat(item.amount);
+  //       const originalAmountLocal = parseFloat(item.amount_local);
+
+  //       // Calculate 10% of the original amount
+  //       const tenPercent = originalAmount * 0.1;
+  //       const tenPercentLocal = originalAmountLocal * 0.1;
+
+  //       // Add 10% to the original amount
+  //       item.amount = (originalAmount + tenPercent).toFixed(2);
+  //       item.amount_local = (originalAmountLocal + tenPercentLocal).toFixed(2);
+
+  //       return item;
+  //     });
+
+  //     console.log('Updated Response Data:', updatedData);
+
+  //     // displayResults(data);
+  //     displayResults(updatedData);
+  //     toastr.success('Successfully received response!', 'Success');
+  //   } catch (error) {
+  //     toastr.error(`Error fetching rates: ${error.message}`);
+  //     console.error('Error:', error);
+  //   }
+  // });
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     captureLocalStepData(currentLocalStep);
-    console.log();
+
     const payload = {
-      // zipcode_from: document.getElementById('fromZip').value,
       zipcode_from: localFormData.step1.senderPostalCode,
-      // zipcode_to: document.getElementById('toZip').value,
       zipcode_to: localFormData.step1.receiverPostalCode,
-      // package_type: document.querySelector('.package-type.selected')?.dataset
-      //   .type,
       package_type: '',
-      // package_length: document.getElementById('length').value,
       package_length: localFormData.step3.length,
-      // package_width: document.getElementById('width').value,
       package_width: localFormData.step3.width,
-      // package_height: document.getElementById('height').value,
       package_height: localFormData.step3.height,
-      // distance_unit: document.getElementById('dimensionUnit').value,
       distance_unit: localFormData.step3.dimensionUnit,
-      // weight: document.getElementById('weight').value,
       weight: localFormData.step3.weight,
-      // weight_unit: document.getElementById('weightUnit').value,
       weight_unit: localFormData.step3.weightUnit,
     };
-    toastr.info('Submitting data...', 'Processing'); // Show toast when submitting
+
+    toastr.info('Submitting data...', 'Processing');
+
     try {
-      // const response = await fetch(API_URLS.rateEstimate, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(payload),
-      // });
       const payload = {
         localFormData,
         package_type: document.querySelector('.package-type.selected')?.dataset
@@ -354,36 +448,13 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       const arrayBuffer = await response.arrayBuffer();
-
-      // Decode the ArrayBuffer to a string
       const decoder = new TextDecoder('utf-8');
       const decodedString = decoder.decode(arrayBuffer);
-
-      // Parse the JSON string
       const data = JSON.parse(decodedString);
 
-      console.log('Response Data:', data);
-      // Handle the response data here
-      // displayResultsInternational(data);
-
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! Status: ${response.status}`);
-      // }
-
-      // const data = await response.json();
+      console.log('Original Response Data:', data); // Log original data
 
       // Add 10% markup to the amount and amount_local fields
-      // const updatedData = data.map((item) => {
-      //   const markup = 0.8; // 10% markup
-      //   item.amount = (parseFloat(item.amount) * (1 + markup)).toFixed(2);
-      //   item.amount_local = (
-      //     parseFloat(item.amount_local) *
-      //     (1 + markup)
-      //   ).toFixed(2);
-      //   return item;
-      // });
-
-      // Add 10% of the original amount to the amount and amount_local fields
       const updatedData = data.map((item) => {
         const originalAmount = parseFloat(item.amount);
         const originalAmountLocal = parseFloat(item.amount_local);
@@ -391,6 +462,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Calculate 10% of the original amount
         const tenPercent = originalAmount * 0.1;
         const tenPercentLocal = originalAmountLocal * 0.1;
+        console.log({ tenPercent, tenPercentLocal });
 
         // Add 10% to the original amount
         item.amount = (originalAmount + tenPercent).toFixed(2);
@@ -399,9 +471,9 @@ document.addEventListener('DOMContentLoaded', function () {
         return item;
       });
 
-      console.log('Updated Response Data:', updatedData);
+      console.log('Updated Response Data:', updatedData); // Log updated data
 
-      // displayResults(data);
+      // Send the updated data to the displayResults function
       displayResults(updatedData);
       toastr.success('Successfully received response!', 'Success');
     } catch (error) {
