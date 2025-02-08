@@ -455,6 +455,21 @@ document.addEventListener('DOMContentLoaded', function () {
       console.log('Original Response Data:', data); // Log original data
 
       // Add 10% markup to the amount and amount_local fields
+      // const updatedData = data.map((item) => {
+      //   const originalAmount = parseFloat(item.amount);
+      //   const originalAmountLocal = parseFloat(item.amount_local);
+
+      //   // Calculate 10% of the original amount
+      //   const tenPercent = originalAmount * 0.1;
+      //   const tenPercentLocal = originalAmountLocal * 0.1;
+      //   console.log({ tenPercent, tenPercentLocal });
+
+      //   // Add 10% to the original amount
+      //   item.amount = (originalAmount + tenPercent).toFixed(2);
+      //   item.amount_local = (originalAmountLocal + tenPercentLocal).toFixed(2);
+
+      //   return item;
+      // });
       const updatedData = data.map((item) => {
         const originalAmount = parseFloat(item.amount);
         const originalAmountLocal = parseFloat(item.amount_local);
@@ -462,13 +477,13 @@ document.addEventListener('DOMContentLoaded', function () {
         // Calculate 10% of the original amount
         const tenPercent = originalAmount * 0.1;
         const tenPercentLocal = originalAmountLocal * 0.1;
-        console.log({ tenPercent, tenPercentLocal });
 
-        // Add 10% to the original amount
-        item.amount = (originalAmount + tenPercent).toFixed(2);
-        item.amount_local = (originalAmountLocal + tenPercentLocal).toFixed(2);
-
-        return item;
+        // Create a new object with updated values
+        return {
+          ...item,
+          amount: (originalAmount + tenPercent).toFixed(2),
+          amount_local: (originalAmountLocal + tenPercentLocal).toFixed(2),
+        };
       });
 
       console.log('Updated Response Data:', updatedData); // Log updated data
@@ -547,7 +562,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // savingsSection.classList.add('hidden');
     // resultSection.classList.remove('hidden');
-    console.log({ internationalData: data });
+    console.log({ local: data });
     resultSection.innerHTML = `
     <div class="local-result-header">
       <h1 class="card-title" style="margin-bottom: 0 !important">Best Deals</h1>
