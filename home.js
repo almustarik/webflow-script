@@ -373,13 +373,29 @@ document.addEventListener('DOMContentLoaded', function () {
       // const data = await response.json();
 
       // Add 10% markup to the amount and amount_local fields
+      // const updatedData = data.map((item) => {
+      //   const markup = 0.8; // 10% markup
+      //   item.amount = (parseFloat(item.amount) * (1 + markup)).toFixed(2);
+      //   item.amount_local = (
+      //     parseFloat(item.amount_local) *
+      //     (1 + markup)
+      //   ).toFixed(2);
+      //   return item;
+      // });
+
+      // Add 10% of the original amount to the amount and amount_local fields
       const updatedData = data.map((item) => {
-        const markup = 0.1; // 10% markup
-        item.amount = (parseFloat(item.amount) * (1 + markup)).toFixed(2);
-        item.amount_local = (
-          parseFloat(item.amount_local) *
-          (1 + markup)
-        ).toFixed(2);
+        const originalAmount = parseFloat(item.amount);
+        const originalAmountLocal = parseFloat(item.amount_local);
+
+        // Calculate 10% of the original amount
+        const tenPercent = originalAmount * 0.1;
+        const tenPercentLocal = originalAmountLocal * 0.1;
+
+        // Add 10% to the original amount
+        item.amount = (originalAmount + tenPercent).toFixed(2);
+        item.amount_local = (originalAmountLocal + tenPercentLocal).toFixed(2);
+
         return item;
       });
 
