@@ -367,6 +367,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ...data,
         rate: data.rate + data.rate * 0.1,
       };
+      console.log({ modifiedData });
       // Handle the response data here
       // displayResultsInternational(data);
 
