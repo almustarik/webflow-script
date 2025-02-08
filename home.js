@@ -363,6 +363,10 @@ document.addEventListener('DOMContentLoaded', function () {
       const data = JSON.parse(decodedString);
 
       console.log('Response Data:', data);
+      const modifiedData = {
+        ...data,
+        rate: data.rate + data.rate * 0.1,
+      };
       // Handle the response data here
       // displayResultsInternational(data);
 
@@ -371,7 +375,8 @@ document.addEventListener('DOMContentLoaded', function () {
       // }
 
       // const data = await response.json();
-      displayResults(data);
+      // displayResults(data);
+      displayResults(modifiedData);
       toastr.success('Successfully received response!', 'Success');
     } catch (error) {
       toastr.error(`Error fetching rates: ${error.message}`);
