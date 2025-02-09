@@ -432,6 +432,21 @@ document.addEventListener('DOMContentLoaded', async function () {
       <p><strong>Weight:</strong> ${readableData.weight || 'N/A'}</p>
     `;
 
+    // <p><strong>Duration Terms:</strong> ${
+    //   readableData.rate?.durationTerms || 'N/A'
+    // }</p>
+    // <p><strong>Carrier Account:</strong> ${
+    //   readableData.rate?.carrierAccount || 'N/A'
+    // }</p>
+    // <p><strong>Zone:</strong> ${readableData.rate?.zone || 'N/A'}</p>
+    // <p><strong>Insurance Included:</strong> ${
+    //   readableData.rate?.includedInsurancePrice || 'N/A'
+    // }</p>
+    // <p><strong>Created On:</strong> ${
+    //   readableData.rate?.objectCreated || 'N/A'
+    // }</p>
+    // <p><strong>Owner:</strong> ${readableData.rate?.objectOwner || 'N/A'}</p>
+
     const rateDetailsHTML = `
       <h3>Rate Details:</h3>
       <p><strong>Amount:</strong> ${readableData.rate?.amount || 'N/A'} ${
@@ -453,20 +468,6 @@ document.addEventListener('DOMContentLoaded', async function () {
       <img src="${readableData.rate?.providerImage_75 || ''}" alt="${
       readableData.rate?.provider || ''
     }">
-      <p><strong>Duration Terms:</strong> ${
-        readableData.rate?.durationTerms || 'N/A'
-      }</p>
-      <p><strong>Carrier Account:</strong> ${
-        readableData.rate?.carrierAccount || 'N/A'
-      }</p>
-      <p><strong>Zone:</strong> ${readableData.rate?.zone || 'N/A'}</p>
-      <p><strong>Insurance Included:</strong> ${
-        readableData.rate?.includedInsurancePrice || 'N/A'
-      }</p>
-      <p><strong>Created On:</strong> ${
-        readableData.rate?.objectCreated || 'N/A'
-      }</p>
-      <p><strong>Owner:</strong> ${readableData.rate?.objectOwner || 'N/A'}</p>
     `;
     // <p><strong>Test Mode:</strong> ${
     //   readableData.rate?.test ? 'Yes' : 'No'
