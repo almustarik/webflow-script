@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const form = document.getElementById('shippingForm');
   const savingsSection = document.getElementById('savingsSection');
   const resultSection = document.getElementById('resultSection');
+  const resultErrorSection = document.getElementById('resultErrorSection');
   const tabs = document.querySelectorAll('.tab');
   const localContainer = document.getElementById('localContainer');
   const internationalContainer = document.getElementById(
@@ -174,7 +175,9 @@ document.addEventListener('DOMContentLoaded', function () {
       displayResultsInternational(updatedData);
       toastr.success('Successfully received response!', 'Success');
     } catch (error) {
+      toastr.error(`Error fetching rates: ${error.message}`);
       console.error('Error sending data to the webhook:', error);
+      displayError();
     }
   });
 
@@ -318,115 +321,6 @@ document.addEventListener('DOMContentLoaded', function () {
     savingsList.appendChild(savingsItem);
   });
 
-  // form.addEventListener('submit', async (e) => {
-  //   e.preventDefault();
-  //   captureLocalStepData(currentLocalStep);
-  //   console.log();
-  //   const payload = {
-  //     // zipcode_from: document.getElementById('fromZip').value,
-  //     zipcode_from: localFormData.step1.senderPostalCode,
-  //     // zipcode_to: document.getElementById('toZip').value,
-  //     zipcode_to: localFormData.step1.receiverPostalCode,
-  //     // package_type: document.querySelector('.package-type.selected')?.dataset
-  //     //   .type,
-  //     package_type: '',
-  //     // package_length: document.getElementById('length').value,
-  //     package_length: localFormData.step3.length,
-  //     // package_width: document.getElementById('width').value,
-  //     package_width: localFormData.step3.width,
-  //     // package_height: document.getElementById('height').value,
-  //     package_height: localFormData.step3.height,
-  //     // distance_unit: document.getElementById('dimensionUnit').value,
-  //     distance_unit: localFormData.step3.dimensionUnit,
-  //     // weight: document.getElementById('weight').value,
-  //     weight: localFormData.step3.weight,
-  //     // weight_unit: document.getElementById('weightUnit').value,
-  //     weight_unit: localFormData.step3.weightUnit,
-  //   };
-  //   toastr.info('Submitting data...', 'Processing'); // Show toast when submitting
-  //   try {
-  //     // const response = await fetch(API_URLS.rateEstimate, {
-  //     //   method: 'POST',
-  //     //   headers: {
-  //     //     'Content-Type': 'application/json',
-  //     //   },
-  //     //   body: JSON.stringify(payload),
-  //     // });
-  //     const payload = {
-  //       localFormData,
-  //       package_type: document.querySelector('.package-type.selected')?.dataset
-  //         .type,
-  //     };
-
-  //     const response = await fetch(API_URLS.localHook, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(payload),
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     }
-
-  //     const arrayBuffer = await response.arrayBuffer();
-
-  //     // Decode the ArrayBuffer to a string
-  //     const decoder = new TextDecoder('utf-8');
-  //     const decodedString = decoder.decode(arrayBuffer);
-
-  //     // Parse the JSON string
-  //     const data = JSON.parse(decodedString);
-
-  //     console.log('Response Data:', data);
-  //     // Handle the response data here
-  //     // displayResultsInternational(data);
-
-  //     // if (!response.ok) {
-  //     //   throw new Error(`HTTP error! Status: ${response.status}`);
-  //     // }
-
-  //     // const data = await response.json();
-
-  //     // Add 10% markup to the amount and amount_local fields
-  //     // const updatedData = data.map((item) => {
-  //     //   const markup = 0.8; // 10% markup
-  //     //   item.amount = (parseFloat(item.amount) * (1 + markup)).toFixed(2);
-  //     //   item.amount_local = (
-  //     //     parseFloat(item.amount_local) *
-  //     //     (1 + markup)
-  //     //   ).toFixed(2);
-  //     //   return item;
-  //     // });
-
-  //     // Add 10% of the original amount to the amount and amount_local fields
-  //     const updatedData = data.map((item) => {
-  //       const originalAmount = parseFloat(item.amount);
-  //       const originalAmountLocal = parseFloat(item.amount_local);
-
-  //       // Calculate 10% of the original amount
-  //       const tenPercent = originalAmount * 0.1;
-  //       const tenPercentLocal = originalAmountLocal * 0.1;
-
-  //       // Add 10% to the original amount
-  //       item.amount = (originalAmount + tenPercent).toFixed(2);
-  //       item.amount_local = (originalAmountLocal + tenPercentLocal).toFixed(2);
-
-  //       return item;
-  //     });
-
-  //     console.log('Updated Response Data:', updatedData);
-
-  //     // displayResults(data);
-  //     displayResults(updatedData);
-  //     toastr.success('Successfully received response!', 'Success');
-  //   } catch (error) {
-  //     toastr.error(`Error fetching rates: ${error.message}`);
-  //     console.error('Error:', error);
-  //   }
-  // });
-
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     captureLocalStepData(currentLocalStep);
@@ -471,22 +365,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
       console.log('Original Response Data:', data); // Log original data
 
-      // Add 10% markup to the amount and amount_local fields
-      // const updatedData = data.map((item) => {
-      //   const originalAmount = parseFloat(item.amount);
-      //   const originalAmountLocal = parseFloat(item.amount_local);
-
-      //   // Calculate 10% of the original amount
-      //   const tenPercent = originalAmount * 0.1;
-      //   const tenPercentLocal = originalAmountLocal * 0.1;
-      //   console.log({ tenPercent, tenPercentLocal });
-
-      //   // Add 10% to the original amount
-      //   item.amount = (originalAmount + tenPercent).toFixed(2);
-      //   item.amount_local = (originalAmountLocal + tenPercentLocal).toFixed(2);
-
-      //   return item;
-      // });
       const updatedData = data.map((item) => {
         const originalAmount = parseFloat(item.amount);
         const originalAmountLocal = parseFloat(item.amount_local);
@@ -511,75 +389,36 @@ document.addEventListener('DOMContentLoaded', function () {
     } catch (error) {
       toastr.error(`Error fetching rates: ${error.message}`);
       console.error('Error:', error);
+      displayError();
     }
   });
 
+  function displayError() {
+    savingsSection.classList.add('hidden');
+    //<h1 class="card-title" style="margin-bottom: 0 !important">Error</h1>
+    //    <span role="img" aria-label="fire">🔥</span>
+    resultErrorSection.classList.remove('hidden');
+    resultErrorSection.innerHTML = `
+      <div class="error-container">
+        <span class="error-label">ERROR</span>
+        <h1 class="error-heading">
+            <span>Oops!</span> That address doesn't look right.
+        </h1>
+        <p class="error-message">
+            It seems the address you entered is invalid or incomplete. Please double-check the street, city, postal code, and country, and try again.
+        </p>
+        <button class="retry-button" onclick="window.location.reload()">
+            Try Again
+            <svg class="retry-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/>
+                <path d="M21 3v5h-5"/>
+            </svg>
+        </button>
+    </div>
+  `;
+  }
+
   function displayResults(data) {
-    // resultSection.innerHTML = `
-    //   <div class="local-result-header">
-    //     <h1 class="card-title" style="margin-bottom: 0 !important">Best Deals</h1>
-    //     <span role="img" aria-label="fire">🔥</span>
-    //   </div>
-    // `;
-
-    // if (data && data.rates?.length) {
-    //   const createCard = (rate, category) => `
-    //     <div class="category">${category}</div>
-    //     <div class="shipping-option">
-    //       <img src="${rate.provider_logo}" alt="${
-    //     rate.provider
-    //   }" class="logo" />
-    //       <div class="details">
-    //         <div class="company">${rate.provider} ${
-    //     rate.service_level_name
-    //   }</div>
-    //         <div class="time">
-    //           ${
-    //             rate.delivery_days_min === rate.delivery_days_max
-    //               ? `${rate.delivery_days_min} days`
-    //               : `${rate.delivery_days_min}-${rate.delivery_days_max} days`
-    //           }
-    //         </div>
-    //       </div>
-    //       <div class="price-section">
-    //         <div class="price">
-    //           <div class="original-price">$${rate.retail_amount || 'N/A'}</div>
-    //           <div class="current-price">$${rate.amount}</div>
-    //         </div>
-    //         <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
-    //           rate,
-    //         )}, "local")'>Buy</button>
-    //       </div>
-    //     </div>
-    //   `;
-
-    //   ['FASTEST', 'CHEAPEST', 'BESTVALUE'].forEach((category) => {
-    //     const rate = data.rates.find((r) => r.attributes.includes(category));
-    //     if (rate) {
-    //       resultSection.innerHTML += createCard(rate, category);
-    //     }
-    //   });
-
-    //   const otherRates = data.rates.filter(
-    //     (rate) =>
-    //       !['FASTEST', 'CHEAPEST', 'BESTVALUE'].some((attr) =>
-    //         rate.attributes.includes(attr),
-    //       ),
-    //   );
-
-    //   if (otherRates.length) {
-    //     resultSection.innerHTML += '<div class="category">Other Options</div>';
-    //     otherRates.forEach((rate) => {
-    //       resultSection.innerHTML += createCard(rate, '');
-    //     });
-    //   }
-    // } else {
-    //   resultSection.innerHTML += '<p>No rates available.</p>';
-    // }
-
-    // savingsSection.classList.add('hidden');
-    // resultSection.classList.remove('hidden');
-    console.log({ local: data });
     resultSection.innerHTML = `
     <div class="local-result-header">
       <h1 class="card-title" style="margin-bottom: 0 !important">Best Deals</h1>
@@ -637,6 +476,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     savingsSection.classList.add('hidden');
+    resultErrorSection.classList.add('hidden');
     resultSection.classList.remove('hidden');
   }
 
@@ -654,33 +494,12 @@ document.addEventListener('DOMContentLoaded', function () {
       queryParams.append('step3', JSON.stringify(formData.step3));
     } else {
       // For local, add only the shipping details
-      // const fromZip = document.getElementById('fromZip').value;
-      // const toZip = document.getElementById('toZip').value;
-      // const length = document.getElementById('length').value;
-      // const width = document.getElementById('width').value;
-      // const height = document.getElementById('height').value;
-      // const dimensionUnit = document.getElementById('dimensionUnit').value;
-      // const weight = document.getElementById('weight').value;
-      // const weightUnit = document.getElementById('weightUnit').value;
-
-      // queryParams.append('fromZip', fromZip);
-      // queryParams.append('toZip', toZip);
-      // queryParams.append('length', length);
-      // queryParams.append('width', width);
-      // queryParams.append('height', height);
-      // queryParams.append('dimensionUnit', dimensionUnit);
-      // queryParams.append('weight', weight);
-      // queryParams.append('weightUnit', weightUnit);
       queryParams.append('step1', JSON.stringify(localFormData.step1));
       queryParams.append('step2', JSON.stringify(localFormData.step2));
       queryParams.append('step3', JSON.stringify(localFormData.step3));
     }
 
     // Determine the correct URL based on type
-    // const url =
-    //   type === 'international'
-    //     ? '/original/international-order.html'
-    //     : '/original/order.html';
     const url = type === 'international' ? 'international-order' : 'order';
 
     // Redirect to the appropriate URL
