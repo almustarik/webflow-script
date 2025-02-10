@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const stepContents = document.querySelectorAll('.step-content');
   const form = document.getElementById('internationalShippingForm');
   const packageTypes = document.querySelectorAll('.package-type');
+  const dimensions = document.getElementById('dimensions');
+  const weight = document.getElementById('weight');
   let currentStep = 1;
   const formData = {
     step1: {},
@@ -43,11 +45,11 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-    console.log(`Step ${step} Data:`, formData[`step${step}`]);
+    // console.log(`Step ${step} Data:`, formData[`step${step}`]);
 
     // Log all steps data at the end
     if (step === steps.length) {
-      console.log('All Steps Data:', formData);
+      // console.log('All Steps Data:', formData);
       // alert(`All Steps Data: ${JSON.stringify(formData, null, 2)}`);
     }
   }
@@ -58,7 +60,14 @@ document.addEventListener('DOMContentLoaded', function () {
       packageTypes.forEach((t) => t.classList.remove('selected'));
       type.classList.add('selected');
       formData.step3['packageType'] = type.dataset.type;
-      console.log('Selected Package Type:', type.dataset.type); // Log the selected package type
+      // console.log('Selected Package Type:', type.dataset.type); // Log the selected package type
+      if (type.dataset.type === 'container') {
+        dimensions.classList.add('hidden');
+        weight.classList.add('hidden');
+      } else {
+        dimensions.classList.remove('hidden');
+        weight.classList.remove('hidden');
+      }
     });
   });
 
@@ -123,22 +132,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (contentType && contentType.includes('application/json')) {
         result = await response.json(); // Parse JSON response
-        console.log('API Response (JSON):', result);
+        // console.log('API Response (JSON):', result);
       } else {
         result = await response.text(); // Parse text response
-        console.log('API Response (Text):', result);
+        // console.log('API Response (Text):', result);
       }
 
       if (response.ok) {
-        console.log('Form data successfully sent to API.');
+        toastr.success('Successfully send your data', 'Success');
+        // console.log('Form data successfully sent to API.');
         window.location.href = `/freight-confirmation#freight-confirmed`;
       } else {
         console.error('API Error:', response.statusText);
-        alert('There was an error submitting your data. Please try again.');
+        toastr.error(
+          'There was an error submitting your data. Please try again.',
+        );
       }
     } catch (error) {
       console.error('Fetch Error:', error);
-      alert('A network error occurred. Please try again later.');
+      toastr.error('A network error occurred. Please try again later.');
     }
   });
 
