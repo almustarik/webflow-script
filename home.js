@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
       toLocation: "Beverly Hills, CA",
       originalPrice: 16.5,
       savedPrice: 8.9,
-      savedPercentage: 80,
+      savedPercentage: 90,
     },
   ];
 
