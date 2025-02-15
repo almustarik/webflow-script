@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'Content-Type': 'application/json', // Set the content type to JSON
           },
           body: JSON.stringify(data), // Convert data to JSON
-        },
+        }
       );
 
       // Check the response content type
@@ -65,13 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
               Thank you for submitting your refund request. Our team is reviewing the details and will process your request within 7–10 business days.
               You will receive an update via email once the process is complete.
             </p>
-            <a href="#" class="continue-btn">Continue</a>
-          </div>
-        `;
+            </div>
+            `;
+        // <a href="#" class="continue-btn">Continue</a>
       } else {
         console.error('API Error:', response.statusText);
         alert(
-          'There was an error processing your request. Please try again later.',
+          'There was an error processing your request. Please try again later.'
         );
       }
     } catch (error) {

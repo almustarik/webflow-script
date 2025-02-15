@@ -159,8 +159,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const originalAmountLocal = parseFloat(item.amount_local);
 
         // Calculate 10% of the original amount
-        const tenPercent = originalAmount * 0.1;
-        const tenPercentLocal = originalAmountLocal * 0.1;
+        const tenPercent = originalAmount * 0.4;
+        const tenPercentLocal = originalAmountLocal * 0.4;
 
         // Create a new object with updated values
         return {
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   function displayResultsInternational(data) {
-    console.log({ internationalData: data });
+    // console.log({ internationalData: data });
     resultSection.innerHTML = `
     <div class="local-result-header">
       <h1 class="card-title" style="margin-bottom: 0 !important">Best Deals</h1>
