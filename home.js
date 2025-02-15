@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const tabs = document.querySelectorAll('.tab');
   const localContainer = document.getElementById('localContainer');
   const internationalContainer = document.getElementById(
-    'internationalContainer',
+    'internationalContainer'
   );
   const steps = document.querySelectorAll('.step');
   const stepContents = document.querySelectorAll('.step-content');
   const internationalForm = document.getElementById(
-    'internationalShippingForm',
+    'internationalShippingForm'
   );
   let currentStep = 1;
   const formData = {
@@ -25,38 +25,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const savingsData = [
     {
-      name: 'Adel ',
-      title: 'CEO, Adel Management LLC',
+      name: 'DHL',
+      title: 'DHL Express',
       image:
-        'https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/6771876b86aa61c0b54757d1_WhatsApp_Image_2024-11-20_at_11.03.36_4220eba8.jpg',
-      fromLocation: 'Richmond, VA',
-      toLocation: 'Beverly Hills, CA',
-      originalPrice: 16.5,
-      savedPrice: 8.2,
-      savedPercentage: 80,
+        'https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/67b01b0af67a8cad368fd9f6_DHL_Express_logo.png',
+      fromLocation: 'San Francisco',
+      toLocation: 'Austin Texas',
+      originalPrice: 47.06,
+      savedPrice: 11.77,
+      savedPercentage: 75,
     },
     // More savings data here...
     {
-      name: 'John Iskenderian',
-      title: 'Head of Business, BRAVA 360 Digital',
+      name: 'USPS',
+      title: 'USPS Ground Advantage',
       image:
-        'https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/679642a74f5289b1ae43516a_1701958610858.jpeg',
-      fromLocation: 'Richmond, VA',
-      toLocation: 'Beverly Hills, CA',
-      originalPrice: 16.5,
-      savedPrice: 8.2,
-      savedPercentage: 80,
+        'https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/67b01e6bed0166efc94c28a8_USPS_logo.png',
+      fromLocation: 'Phoenix, Arizona',
+      toLocation: 'Melbourne, Australia',
+      originalPrice: 104.91,
+      savedPrice: 22.03,
+      savedPercentage: 79,
     },
     {
-      name: 'Will Houcheime',
-      title: 'CEO, Sliq by Design',
+      name: 'FedEx',
+      title: 'FedEx Standard Overnight',
       image:
-        'https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/679642a779f5325b874d427e_1688454822337.jpeg',
-      fromLocation: 'Richmond, VA',
-      toLocation: 'Beverly Hills, CA',
-      originalPrice: 16.5,
-      savedPrice: 8.2,
-      savedPercentage: 80,
+        'https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/67b01d6957dcf729ab85446d_Fedex_logo.png',
+      fromLocation: 'Philadelphia, United States',
+      toLocation: 'Chihuahua, Mexico',
+      originalPrice: 63.72,
+      savedPrice: 10.83,
+      savedPercentage: 83,
     },
   ];
 
@@ -69,12 +69,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function validateStep(step) {
     const currentFields = stepContents[step - 1].querySelectorAll(
-      'input[required], select[required]',
+      'input[required], select[required]'
     );
     for (const field of currentFields) {
       if (!field.value.trim()) {
         toastr.warning(
-          `Please fill in the "${field.dataset.label || 'required'}" field.`,
+          `Please fill in the "${field.dataset.label || 'required'}" field.`
         );
         field.focus();
         return false;
@@ -159,8 +159,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const originalAmountLocal = parseFloat(item.amount_local);
 
         // Calculate 10% of the original amount
-        const tenPercent = originalAmount * 0.1;
-        const tenPercentLocal = originalAmountLocal * 0.1;
+        const tenPercent = originalAmount * 0.4;
+        const tenPercentLocal = originalAmountLocal * 0.4;
 
         // Create a new object with updated values
         return {
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   function displayResultsInternational(data) {
-    console.log({ internationalData: data });
+    // console.log({ internationalData: data });
     resultSection.innerHTML = `
     <div class="local-result-header">
       <h1 class="card-title" style="margin-bottom: 0 !important">Best Deals</h1>
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="current-price">$${rate.amount}</div>
           </div>
           <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
-            rate,
+            rate
           )}, "international")'>Buy</button>
         </div>
       </div>
@@ -225,8 +225,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const otherRates = data.filter(
         (rate) =>
           !['FASTEST', 'CHEAPEST', 'BESTVALUE'].some((attr) =>
-            rate.attributes.includes(attr),
-          ),
+            rate.attributes.includes(attr)
+          )
       );
 
       if (otherRates.length) {
@@ -303,10 +303,10 @@ document.addEventListener('DOMContentLoaded', function () {
                   }% Saved</div>
                   <div>
                       <span class="original-price">$${item.originalPrice.toFixed(
-                        2,
+                        2
                       )}</span>
                       <span class="new-price">$${item.savedPrice.toFixed(
-                        2,
+                        2
                       )}</span>
                   </div>
               </div>
@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="current-price">$${rate.amount}</div>
           </div>
           <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
-            rate,
+            rate
           )}, "local")'>Buy</button>
         </div>
       </div>
@@ -461,8 +461,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const otherRates = data.filter(
         (rate) =>
           !['FASTEST', 'CHEAPEST', 'BESTVALUE'].some((attr) =>
-            rate.attributes.includes(attr),
-          ),
+            rate.attributes.includes(attr)
+          )
       );
 
       if (otherRates.length) {
@@ -517,12 +517,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function validateLocalStep(step) {
     const currentFields = localStepContents[step - 1].querySelectorAll(
-      'input[required], select[required]',
+      'input[required], select[required]'
     );
     for (const field of currentFields) {
       if (!field.value.trim()) {
         toastr.warning(
-          `Please fill in the "${field.dataset.label || 'required'}" field.`,
+          `Please fill in the "${field.dataset.label || 'required'}" field.`
         );
         field.focus();
         return false;
