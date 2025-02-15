@@ -25,38 +25,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const savingsData = [
     {
-      name: "Adel ",
-      title: "CEO, Adel Management LLC",
+      name: "DHL",
+      title: "DHL Express",
       image:
-        "https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/6771876b86aa61c0b54757d1_WhatsApp_Image_2024-11-20_at_11.03.36_4220eba8.jpg",
-      fromLocation: "Richmond, VA",
-      toLocation: "Beverly Hills, CA",
-      originalPrice: 16.5,
-      savedPrice: 8.2,
-      savedPercentage: 80,
+        "https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/67b01b0af67a8cad368fd9f6_DHL_Express_logo.png",
+      fromLocation: "San Francisco",
+      toLocation: "Austin Texas",
+      originalPrice: 47.06,
+      savedPrice: 11.77,
+      savedPercentage: 75,
     },
     // More savings data here...
     {
-      name: "John Iskenderian",
-      title: "Head of Business, BRAVA 360 Digital",
+      name: "USPS",
+      title: "USPS Ground Advantage",
       image:
-        "https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/679642a74f5289b1ae43516a_1701958610858.jpeg",
-      fromLocation: "Richmond, VA",
-      toLocation: "Beverly Hills, CA",
-      originalPrice: 16.5,
-      savedPrice: 8.2,
-      savedPercentage: 80,
+        "https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/67b01e6bed0166efc94c28a8_USPS_logo.png",
+      fromLocation: "Phoenix, Arizona",
+      toLocation: "Melbourne, Australia",
+      originalPrice: 104.91,
+      savedPrice: 22.03,
+      savedPercentage: 79,
     },
     {
-      name: "Will Houcheime",
-      title: "CEO, Sliq by Design",
+      name: "FedEx",
+      title: "FedEx Standard Overnight",
       image:
-        "https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/679642a779f5325b874d427e_1688454822337.jpeg",
-      fromLocation: "Richmond, VA",
-      toLocation: "Beverly Hills, CA",
-      originalPrice: 16.5,
-      savedPrice: 8.9,
-      savedPercentage: 90,
+        "https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/67b01d6957dcf729ab85446d_Fedex_logo.png",
+      fromLocation: "Philadelphia, United States",
+      toLocation: "Chihuahua, Mexico",
+      originalPrice: 63.72,
+      savedPrice: 10.83,
+      savedPercentage: 83,
     },
   ];
 
