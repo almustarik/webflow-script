@@ -445,7 +445,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         readableData.senderAddress?.senderName || ''
       }</p>
       <p><strong>Email:</strong> ${
-        readableData.senderAddress?.senderEmail || ''
+        readableData.senderAddress?.senderEmail || 'Not given'
       }</p>
       <p><strong>Phone:</strong> ${
         readableData.senderAddress?.senderPhone || ''
@@ -468,7 +468,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         readableData.receiverAddress?.receiverName || ''
       }</p>
       <p><strong>Email:</strong> ${
-        readableData.receiverAddress?.receiverEmail || ''
+        readableData.receiverAddress?.receiverEmail || 'Not given'
       }</p>
       <p><strong>Phone:</strong> ${
         readableData.receiverAddress?.receiverPhone || ''

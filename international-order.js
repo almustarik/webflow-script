@@ -376,7 +376,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const formDataHTML = `
       <h3>Sender Information</h3>
       <p><strong>Name:</strong> ${readableData.senderAddress?.name || ''}</p>
-      <p><strong>Email:</strong> ${readableData.senderAddress?.email || ''}</p>
+      <p><strong>Email:</strong> ${readableData.senderAddress?.email || 'Not given'}</p>
       <p><strong>Phone:</strong> ${readableData.senderAddress?.Phone || ''}</p>
       <p><strong>Street:</strong> ${
         readableData.senderAddress?.street || 'N/A'
@@ -392,7 +392,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       <h3>Receiver Information</h3>
       <p><strong>Name:</strong> ${readableData.receiverAddress?.name || ''}</p>
       <p><strong>Email:</strong> ${
-        readableData.receiverAddress?.email || ''
+        readableData.receiverAddress?.email || 'Not given'
       }</p>
       <p><strong>Phone:</strong> ${
         readableData.receiverAddress?.Phone || ''
