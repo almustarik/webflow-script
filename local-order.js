@@ -462,7 +462,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       <p><strong>Postal Code:</strong> ${
         readableData.senderAddress?.senderPostalCode || 'N/A'
       }</p>
-      
+
       <h3>Receiver Information</h3>
       <p><strong>Name:</strong> ${
         readableData.receiverAddress?.receiverName || ''
@@ -494,10 +494,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     // <p><strong>Retail Amount:</strong> ${readableData.rate.retailAmount} ${readableData.rate.currency}</p>
 
     // Product Description
+    // <p><strong>Weight:</strong> ${readableData.weight || 'N/A'}</p>
     const productDetailsHTML = `
     <h3>Product Details:</h3>
     <p><strong>Dimensions:</strong> ${readableData.dimensions || 'N/A'}</p>
-    <p><strong>Weight:</strong> ${readableData.weight || 'N/A'}</p>
     <p><strong>Length:</strong> ${
       readableData.productDescription?.length || 'N/A'
     } ${readableData.productDescription?.dimensionUnit || ''}</p>
@@ -545,7 +545,7 @@ document.addEventListener('DOMContentLoaded', async function () {
       <p><strong>Provider:</strong> ${readableData.rate?.provider || 'N/A'}</p>
       <img src="${readableData.rate?.providerImage_75 || ''}" alt="${
       readableData.rate?.provider || ''
-    }"> 
+    }">
     `;
 
     // Combine and display data
