@@ -9,12 +9,12 @@ document.addEventListener('DOMContentLoaded', function () {
   const tabs = document.querySelectorAll('.tab');
   const localContainer = document.getElementById('localContainer');
   const internationalContainer = document.getElementById(
-    'internationalContainer'
+    'internationalContainer',
   );
   const steps = document.querySelectorAll('.step');
   const stepContents = document.querySelectorAll('.step-content');
   const internationalForm = document.getElementById(
-    'internationalShippingForm'
+    'internationalShippingForm',
   );
   let currentStep = 1;
   const formData = {
@@ -69,12 +69,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function validateStep(step) {
     const currentFields = stepContents[step - 1].querySelectorAll(
-      'input[required], select[required]'
+      'input[required], select[required]',
     );
     for (const field of currentFields) {
       if (!field.value.trim()) {
         toastr.warning(
-          `Please fill in the "${field.dataset.label || 'required'}" field.`
+          `Please fill in the "${field.dataset.label || 'required'}" field.`,
         );
         field.focus();
         return false;
@@ -159,8 +159,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const originalAmountLocal = parseFloat(item.amount_local);
 
         // Calculate 10% of the original amount
-        const tenPercent = originalAmount * 0.4;
-        const tenPercentLocal = originalAmountLocal * 0.4;
+        const tenPercent = originalAmount * 0.6;
+        const tenPercentLocal = originalAmountLocal * 0.6;
 
         // Create a new object with updated values
         return {
@@ -205,11 +205,13 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
         <div class="price-section">
           <div class="price">
-            <div class="original-price">$${rate.amount}</div>
+            <div class="original-price">$${(rate.amount * 1.24).toFixed(
+              2,
+            )}</div>
             <div class="current-price">$${rate.amount}</div>
           </div>
           <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
-            rate
+            rate,
           )}, "international")'>Buy</button>
         </div>
       </div>
@@ -225,8 +227,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const otherRates = data.filter(
         (rate) =>
           !['FASTEST', 'CHEAPEST', 'BESTVALUE'].some((attr) =>
-            rate.attributes.includes(attr)
-          )
+            rate.attributes.includes(attr),
+          ),
       );
 
       if (otherRates.length) {
@@ -303,10 +305,10 @@ document.addEventListener('DOMContentLoaded', function () {
                   }% Saved</div>
                   <div>
                       <span class="original-price">$${item.originalPrice.toFixed(
-                        2
+                        2,
                       )}</span>
                       <span class="new-price">$${item.savedPrice.toFixed(
-                        2
+                        2,
                       )}</span>
                   </div>
               </div>
@@ -363,15 +365,15 @@ document.addEventListener('DOMContentLoaded', function () {
       const decodedString = decoder.decode(arrayBuffer);
       const data = JSON.parse(decodedString);
 
-      console.log('Original Response Data:', data); // Log original data
+      // console.log('Original Response Data:', data); // Log original data
 
       const updatedData = data.map((item) => {
         const originalAmount = parseFloat(item.amount);
         const originalAmountLocal = parseFloat(item.amount_local);
 
         // Calculate 10% of the original amount
-        const tenPercent = originalAmount * 0.1;
-        const tenPercentLocal = originalAmountLocal * 0.1;
+        const tenPercent = originalAmount * 0.6;
+        const tenPercentLocal = originalAmountLocal * 0.6;
 
         // Create a new object with updated values
         return {
@@ -441,11 +443,13 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
         <div class="price-section">
           <div class="price">
-            <div class="original-price">$${rate.amount}</div>
+            <div class="original-price">$${(rate.amount * 1.24).toFixed(
+              2,
+            )}</div>
             <div class="current-price">$${rate.amount}</div>
           </div>
           <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
-            rate
+            rate,
           )}, "local")'>Buy</button>
         </div>
       </div>
@@ -461,8 +465,8 @@ document.addEventListener('DOMContentLoaded', function () {
       const otherRates = data.filter(
         (rate) =>
           !['FASTEST', 'CHEAPEST', 'BESTVALUE'].some((attr) =>
-            rate.attributes.includes(attr)
-          )
+            rate.attributes.includes(attr),
+          ),
       );
 
       if (otherRates.length) {
@@ -517,12 +521,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function validateLocalStep(step) {
     const currentFields = localStepContents[step - 1].querySelectorAll(
-      'input[required], select[required]'
+      'input[required], select[required]',
     );
     for (const field of currentFields) {
       if (!field.value.trim()) {
         toastr.warning(
-          `Please fill in the "${field.dataset.label || 'required'}" field.`
+          `Please fill in the "${field.dataset.label || 'required'}" field.`,
         );
         field.focus();
         return false;
