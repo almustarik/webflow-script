@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // console.log({ internationalData: data });
     resultSection.innerHTML = `
     <div class="local-result-header">
-      <h1 class="card-title" style="margin-bottom: 0 !important;margin-top: 0 !important;">Best Deals</h1>
+      <h1 class="card-title" style="margin-bottom: 0 !important">Best Deals</h1>
       <span role="img" aria-label="fire">🔥</span>
     </div>
   `;
@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function displayError() {
     savingsSection.classList.add('hidden');
-    //<h1 class="card-title" style="margin-bottom: 0 !important;margin-top: 0 !important;">Error</h1>
+    //<h1 class="card-title" style="margin-bottom: 0 !important">Error</h1>
     //    <span role="img" aria-label="fire">🔥</span>
     resultErrorSection.classList.remove('hidden');
     resultErrorSection.innerHTML = `
@@ -423,7 +423,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function displayResults(data) {
     resultSection.innerHTML = `
     <div class="local-result-header">
-      <h1 class="card-title" style="margin-bottom: 0 !important;margin-top: 0 !important;">Best Deals</h1>
+      <h1 class="card-title" style="margin-bottom: 0 !important">Best Deals</h1>
       <span role="img" aria-label="fire">🔥</span>
     </div>
   `;
