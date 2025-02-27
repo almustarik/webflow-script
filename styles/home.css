@@ -20,17 +20,28 @@ body {
   border-radius: 1rem;
 }
 
-@media (max-width: 48rem) {
+/* @media (max-width: 48rem) {
   .container {
     grid-template-columns: 1fr;
   }
-}
+} */
 
 .card {
   background: white;
   border-radius: 0.5rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
+}
+
+@media (max-width: 48rem) {
+  .container {
+    grid-template-columns: 1fr;
+    border-radius: 0;
+  }
+
+  .card {
+    max-width: 288px;
+  }
 }
 
 .card-title {
