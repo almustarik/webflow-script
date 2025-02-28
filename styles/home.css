@@ -33,7 +33,7 @@ body {
   padding: 1.5rem;
 }
 
-@media (max-width: 48rem) {
+@media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr;
     border-radius: 0;
@@ -41,7 +41,7 @@ body {
 
   .card {
     padding: 16px;
-    max-width: 288px;
+    width: auto;
   }
 }
 
@@ -144,11 +144,16 @@ button:hover {
 }
 
 .savings-item {
-  display: flex;
+  /* display: flex;
   gap: 1rem;
   padding: 1rem;
   border: 0.0625rem solid #e2e8f0;
+  border-radius: 0.5rem; */
+  background: transparent;
   border-radius: 0.5rem;
+  /* box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1); */
+  border: 0.0625rem solid #e2e8f0;
+  padding: 1.5rem;
 }
 
 .avatar {
