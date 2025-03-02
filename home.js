@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (type.dataset.type === 'poly') {
         heightInput.classList.add('hidden');
         heightLabel.classList.add('hidden');
-        heightInput.value = '0.5';
+        // heightInput.value = '0.5';
         heightInput.required = false;
       } else {
         heightInput.classList.remove('hidden');
