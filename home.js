@@ -50,8 +50,9 @@ document.addEventListener('DOMContentLoaded', function () {
     {
       name: 'FedEx',
       title: 'FedEx Standard Overnight',
-      image:
-        'https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/67b01d6957dcf729ab85446d_Fedex_logo.png',
+      // image:
+      //   'https://cdn.prod.website-files.com/676e0b98edcce6b20ef67ef0/67b01d6957dcf729ab85446d_Fedex_logo.png',
+      image: 'https://shippo-static.s3.amazonaws.com/providers/75/FedEx.png',
       fromLocation: 'Philadelphia, United States',
       toLocation: 'Chihuahua, Mexico',
       originalPrice: 63.72,
