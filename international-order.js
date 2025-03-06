@@ -1,7 +1,7 @@
-const appId = 'sandbox-sq0idb-h79KvJzFeQmHWEzcdJ-ZFg';
-const locationId = 'L7KSRF7VR56SV';
-// const appId = 'sq0idp-TTGMXMMc22MA-GR-0hMaoQ';
-// const locationId = 'LXVG5RWEP9Q48';
+// const appId = 'sandbox-sq0idb-h79KvJzFeQmHWEzcdJ-ZFg';
+// const locationId = 'L7KSRF7VR56SV';
+const appId = 'sq0idp-TTGMXMMc22MA-GR-0hMaoQ';
+const locationId = 'LXVG5RWEP9Q48';
 
 function getQueryParams() {
   const params = new URLSearchParams(window.location.search);
