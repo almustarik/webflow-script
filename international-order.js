@@ -449,14 +449,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     // }</p>
     // <p><strong>Owner:</strong> ${readableData.rate?.objectOwner || 'N/A'}</p>
 
+      // <p><strong>Retail Amount:</strong> ${
+      //   readableData.rate?.amountLocal || 'N/A'
+      // } ${readableData.rate?.currencyLocal || 'N/A'}</p>
     const rateDetailsHTML = `
       <h3>Rate Details:</h3>
       <p><strong>Amount:</strong> ${readableData.rate?.amount || 'N/A'} ${
       readableData.rate?.currency || 'N/A'
     }</p>
-      <p><strong>Retail Amount:</strong> ${
-        readableData.rate?.amountLocal || 'N/A'
-      } ${readableData.rate?.currencyLocal || 'N/A'}</p>
       <p><strong>Attributes:</strong> ${
         readableData.rate?.attributes?.join(', ') || 'N/A'
       }</p>
