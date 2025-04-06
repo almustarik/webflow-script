@@ -557,6 +557,13 @@ document.addEventListener('DOMContentLoaded', function () {
     localStepContents.forEach((content, index) => {
       content.classList.toggle('active', index + 1 === step);
     });
+    // Scroll to the top/header
+    const header = document.getElementById('header');
+    if (header) {
+      header.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   document.querySelectorAll('.local-next-step').forEach((button) => {
