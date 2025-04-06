@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
       // Parse the JSON string
       const data = JSON.parse(decodedString);
 
-      console.log('Response Data:', data);
+      // console.log('Response Data:', data);
 
       const updatedData = data.map((item) => {
         const originalAmount = parseFloat(item.amount);
@@ -178,7 +178,16 @@ document.addEventListener('DOMContentLoaded', function () {
         };
       });
 
-      console.log('Updated Response Data:', updatedData); // Log updated data
+      // console.log('Updated Response Data:', updatedData); // Log updated data
+
+      // Scroll to top before showing results
+      const header = document.getElementById('header');
+      if (header) {
+        header.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
       // Handle the response data here
       displayResultsInternational(updatedData);
       toastr.success('Successfully received response!', 'Success');
@@ -391,7 +400,15 @@ document.addEventListener('DOMContentLoaded', function () {
         };
       });
 
-      console.log('Updated Response Data:', updatedData); // Log updated data
+      // console.log('Updated Response Data:', updatedData); // Log updated data
+
+      // Scroll to top before showing results
+      const header = document.getElementById('header');
+      if (header) {
+        header.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
 
       // Send the updated data to the displayResults function
       displayResults(updatedData);
