@@ -222,9 +222,9 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
         <div class="price-section">
           <div class="price">
-            <div class="original-price">$${(rate.amount * 1.24).toFixed(
-              2,
-            )}</div>
+            <div class="original-price" style="display:none">$${(
+              rate.amount * 1.24
+            ).toFixed(2)}</div>
             <div class="current-price">$${rate.amount}</div>
           </div>
           <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
@@ -468,9 +468,9 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
         <div class="price-section">
           <div class="price">
-            <div class="original-price">$${(rate.amount * 1.24).toFixed(
-              2,
-            )}</div>
+            <div class="original-price" style="display:none">$${(
+              rate.amount * 1.24
+            ).toFixed(2)}</div>
             <div class="current-price">$${rate.amount}</div>
           </div>
           <button class="buy-button" onclick='navigateToOrder(${JSON.stringify(
